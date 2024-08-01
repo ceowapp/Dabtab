@@ -1,0 +1,6 @@
+ret <- suppressPackageStartupMessages(require("dabtab"))
+if (ret) {
+  message("\nDabtab update successfully completed\n")
+} else {
+  message("\nDabtab update attempt was unsuccessful\n")
+}

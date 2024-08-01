@@ -1,0 +1,571 @@
+domain,main_branch,sub_branch
+Engineering,Instrumentation Engineering,Control systems engineering
+Engineering,Instrumentation Engineering,Process control engineering
+Engineering,Instrumentation Engineering,Robotics engineering
+Engineering,Instrumentation Engineering,Industrial automation engineering
+Engineering,Instrumentation Engineering,Mechatronics engineering
+Engineering,Instrumentation Engineering,Control systems engineering
+Engineering,Instrumentation Engineering,Process control engineering
+Engineering,Instrumentation Engineering,Robotics engineering
+Engineering,Instrumentation Engineering,Industrial automation engineering
+Engineering,Instrumentation Engineering,Mechatronics engineering
+Engineering,Manufacturing Engineering,Industrial engineering
+Engineering,Manufacturing Engineering,Production engineering
+Engineering,Manufacturing Engineering,Process engineering
+Engineering,Manufacturing Engineering,Materials engineering
+Engineering,Manufacturing Engineering,Quality engineering
+Engineering,Marine Engineering,Naval architecture
+Engineering,Marine Engineering,Shipbuilding
+Engineering,Marine Engineering,Ocean engineering
+Engineering,Marine Engineering,Offshore engineering
+Engineering,Materials Engineering,Polymer engineering
+Engineering,Materials Engineering,Ceramic engineering
+Engineering,Materials Engineering,Metallurgical engineering
+Engineering,Materials Engineering,Electronic materials engineering
+Engineering,Materials Engineering,Biomaterials engineering
+Engineering,Mechanical Engineering,Thermodynamics
+Engineering,Mechanical Engineering,Dynamics and control
+Engineering,Mechanical Engineering,Mechanics and materials
+Engineering,Mechanical Engineering,Manufacturing
+Engineering,Mechanical Engineering,Robotics and mechatronics
+Engineering,Mechanical Engineering,Biomechanical engineering
+Engineering,Mechanical Engineering,Aerospace engineering
+Engineering,Mechatronics Engineering,Mechanics
+Engineering,Mechatronics Engineering,Electronics
+Engineering,Mechatronics Engineering,Robotics
+Engineering,Mechatronics Engineering,Control systems
+Engineering,Mechatronics Engineering,Computer engineering
+Engineering,Mechatronics Engineering,Telecommunications
+Engineering,Metallurgical Engineering,Extractive metallurgy
+Engineering,Metallurgical Engineering,Physical metallurgy
+Engineering,Metallurgical Engineering,Manufacturing metallurgy
+Engineering,Mining Engineering,Mineral processing
+Engineering,Mining Engineering,Mine ventilation
+Engineering,Mining Engineering,Rock mechanics
+Engineering,Mining Engineering,Mine surveying
+Engineering,Mining Engineering,Mineral economics
+Engineering,Nanotechnology Engineering,Material science
+Engineering,Nanotechnology Engineering,Chemical engineering
+Engineering,Nanotechnology Engineering,Electrical engineering
+Engineering,Nanotechnology Engineering,Biotechnology
+Engineering,Nanotechnology Engineering,Physics
+Engineering,Naval Architecture and Marine Engineering,Hydrostatics and stability
+Engineering,Naval Architecture and Marine Engineering,Resistance and propulsion
+Engineering,Naval Architecture and Marine Engineering,Structures and materials
+Engineering,Naval Architecture and Marine Engineering,Marine design
+Engineering,Naval Architecture and Marine Engineering,Offshore engineering
+Engineering,Nuclear Engineering,Nuclear power generation
+Engineering,Nuclear Engineering,Nuclear materials
+Engineering,Nuclear Engineering,Nuclear fusion research
+Engineering,Nuclear Engineering,Medical physics
+Engineering,Nuclear Engineering,Radiation protection
+Engineering,Petroleum Engineering,Drilling engineering
+Engineering,Petroleum Engineering,Reservoir engineering
+Engineering,Petroleum Engineering,Production engineering
+Engineering,Petroleum Engineering,Formation evaluation
+Engineering,Petroleum Engineering,Offshore engineering
+Engineering,Plastics Engineering,Polymer chemistry
+Engineering,Plastics Engineering,Polymer processing
+Engineering,Plastics Engineering,Polymer engineering
+Engineering,Plastics Engineering,Composites engineering
+Engineering,Process Engineering,Chemical engineering
+Engineering,Process Engineering,Biochemical engineering
+Engineering,Process Engineering,Environmental engineering
+Engineering,Process Engineering,Process design
+Engineering,Process Engineering,Process simulation
+Engineering,Production Engineering,Process engineering
+Engineering,Production Engineering,Manufacturing engineering
+Engineering,Production Engineering,Industrial engineering
+Engineering,Production Engineering,Operations management
+Engineering,Robotics Engineering,Mechanical engineering
+Engineering,Robotics Engineering,Electrical engineering
+Engineering,Robotics Engineering,Computer engineering
+Engineering,Robotics Engineering,Control engineering
+Engineering,Robotics Engineering,Mechatronics engineering
+Engineering,Robotics Engineering,Artificial intelligence
+Engineering,Software Engineering,Computer programming
+Engineering,Software Engineering,Software design
+Engineering,Software Engineering,Software testing
+Engineering,Software Engineering,Software maintenance
+Engineering,Software Engineering,Project management
+Engineering,Structural Engineering,Structural mechanics
+Engineering,Structural Engineering,Structural materials
+Engineering,Structural Engineering,Structural dynamics
+Engineering,Structural Engineering,Earthquake engineering
+Engineering,Structural Engineering,Wind engineering
+Engineering,Structural Engineering,Structural analysis and design
+Engineering,Surveying Engineering,Land surveying
+Engineering,Surveying Engineering,Geodetic surveying
+Engineering,Surveying Engineering,Photogrammetry
+Engineering,Surveying Engineering,Remote sensing
+Engineering,Surveying Engineering,Geomatics
+Engineering,Systems Engineering,Systems design
+Engineering,Systems Engineering,Systems analysis
+Engineering,Systems Engineering,Systems integration
+Engineering,Systems Engineering,Systems validation and testing
+Engineering,Systems Engineering,Project management
+Engineering,Textile Engineering,Yarn engineering
+Engineering,Textile Engineering,Fabric engineering
+Engineering,Textile Engineering,Garment engineering
+Engineering,Textile Engineering,Technical textiles
+Engineering,Textile Engineering,Nonwoven engineering
+Engineering,Thermal Engineering,Thermodynamics
+Engineering,Thermal Engineering,Heat transfer
+Engineering,Thermal Engineering,Combustion engineering
+Engineering,Thermal Engineering,Energy conversion
+Engineering,Thermal Engineering,Refrigeration and air conditioning
+Engineering,Traffic Engineering,Transportation planning
+Engineering,Traffic Engineering,Traffic safety
+Engineering,Traffic Engineering,Traffic flow theory
+Engineering,Traffic Engineering,Intelligent transportation systems
+Engineering,Traffic Engineering,Transportation and the environment
+Engineering,Transportation Engineering,Highway engineering
+Engineering,Transportation Engineering,Railway engineering
+Engineering,Transportation Engineering,Airport engineering
+Engineering,Transportation Engineering,Port engineering
+Engineering,Transportation Engineering,Urban transportation planning
+Engineering,Urban Engineering,Urban planning
+Engineering,Urban Engineering,Transportation planning
+Engineering,Urban Engineering,Environmental engineering
+Engineering,Urban Engineering,Water resources engineering
+Engineering,Urban Engineering,Infrastructure engineering
+Engineering,Water Resources Engineering,Hydrology
+Engineering,Water Resources Engineering,Water resources systems engineering
+Engineering,Water Resources Engineering,Hydraulic engineering
+Engineering,Water Resources Engineering,Water quality engineering
+Engineering,Water Resources Engineering,Coastal engineering
+Engineering,Web Engineering,Web development
+Engineering,Web Engineering,Web design
+Engineering,Web Engineering,Web content management
+Engineering,Web Engineering,Web-based software development
+Engineering,Web Engineering,E-commerce development
+Engineering,Wind Engineering,Aerodynamics
+Engineering,Wind Engineering,Structural engineering
+Engineering,Wind Engineering,Wind energy systems
+Engineering,Wind Engineering,Computational fluid dynamics
+Engineering,Wind Engineering,Wind tunnel testing
+Engineering,Aerospace Engineering,Aerodynamics
+Engineering,Aerospace Engineering,Flight mechanics and controls
+Engineering,Aerospace Engineering,Structural mechanics
+Engineering,Aerospace Engineering,Propulsion
+Engineering,Aerospace Engineering,Aerospace materials
+Engineering,Aerospace Engineering,Avionics and instrumentation
+Engineering,Aerospace Engineering,Space systems engineering
+Engineering,Agricultural Engineering,Farm machinery and power
+Engineering,Agricultural Engineering,Soil and water conservation engineering
+Engineering,Agricultural Engineering,Irrigation and drainage engineering
+Engineering,Agricultural Engineering,Postharvest engineering and technology
+Engineering,Agricultural Engineering,Agricultural process engineering
+Engineering,Agricultural Engineering,Bioprocess engineering
+Engineering,Agricultural Engineering,Aquacultural engineering
+Engineering,Architectural Engineering,Structural engineering
+Engineering,Architectural Engineering,Mechanical and electrical systems
+Engineering,Architectural Engineering,Construction management
+Engineering,Architectural Engineering,Building design and architecture
+Engineering,Architectural Engineering,Lighting and acoustics
+Engineering,Automotive Engineering,Vehicle design and analysis
+Engineering,Automotive Engineering,Automotive systems and controls
+Engineering,Automotive Engineering,Powertrain engineering
+Engineering,Automotive Engineering,Materials and manufacturing
+Engineering,Automotive Engineering,Alternative fuel technologies
+Engineering,Biological Engineering,Bioprocess engineering
+Engineering,Biological Engineering,Biomaterials and tissue engineering
+Engineering,Biological Engineering,Biomechanics
+Engineering,Biological Engineering,Biosensors and instrumentation
+Engineering,Biological Engineering,Genetic engineering
+Engineering,Biological Engineering,Systems biology and computational modeling
+Engineering,Chemical Engineering,Process design and analysis
+Engineering,Chemical Engineering,Thermodynamics
+Engineering,Chemical Engineering,Transport phenomena
+Engineering,Chemical Engineering,Chemical kinetics and reactor design
+Engineering,Chemical Engineering,Process dynamics and control
+Engineering,Chemical Engineering,Process safety and environmental protection
+Engineering,Civil Engineering,Structural engineering
+Engineering,Civil Engineering,Geotechnical engineering
+Engineering,Civil Engineering,Transportation engineering
+Engineering,Civil Engineering,Water resources engineering
+Engineering,Civil Engineering,Environmental engineering
+Engineering,Civil Engineering,Construction engineering and management
+Engineering,Civil Engineering,Surveying and geomatics engineering
+Engineering,Computer Engineering,Computer hardware
+Engineering,Computer Engineering,Computer software
+Engineering,Computer Engineering,Computer networks
+Engineering,Computer Engineering,Computer architecture
+Engineering,Computer Engineering,Digital signal processing
+Engineering,Computer Engineering,Embedded systems
+Engineering,Construction Engineering,Construction management
+Engineering,Construction Engineering,Project management
+Engineering,Construction Engineering,Building information modeling
+Engineering,Construction Engineering,Sustainable design and construction
+Engineering,Construction Engineering,Construction materials and methods
+Engineering,Construction Engineering,Structural design
+Engineering,Control Engineering,Control theory
+Engineering,Control Engineering,Control systems analysis and design
+Engineering,Control Engineering,Digital signal processing
+Engineering,Control Engineering,Robotics and automation
+Engineering,Control Engineering,Mechatronics
+Engineering,Control Engineering,Artificial intelligence
+Engineering,Earthquake Engineering,Seismology
+Engineering,Earthquake Engineering,Earthquake hazard assessment
+Engineering,Earthquake Engineering,Structural dynamics and earthquake engineering
+Engineering,Earthquake Engineering,Soil dynamics and earthquake engineering
+Engineering,Earthquake Engineering,Risk and reliability analysis
+Engineering,Earthquake Engineering,Disaster mitigation and management
+Engineering,Electrical Engineering,Electric power systems
+Engineering,Electrical Engineering,Control systems
+Engineering,Electrical Engineering,Electronics
+Engineering,Electrical Engineering,Digital signal processing
+Engineering,Electrical Engineering,Telecommunications
+Engineering,Electrical Engineering,Computer engineering
+Engineering,Electrical Engineering,Microelectronics
+Engineering,Electronics Engineering,Circuit theory and design
+Engineering,Electronics Engineering,Digital electronics
+Engineering,Electronics Engineering,Microelectronics
+Engineering,Electronics Engineering,Analog electronics
+Engineering,Electronics Engineering,Semiconductor devices
+Engineering,Electronics Engineering,Electromagnetic theory
+Engineering,Electronics Engineering,VLSI design
+Engineering,Energy Engineering,Energy systems engineering
+Engineering,Energy Engineering,Renewable energy systems and technologies
+Engineering,Energy Engineering,Energy efficiency and conservation
+Engineering,Energy Engineering,Energy policy and economics
+Engineering,Energy Engineering,Fossil fuel technologies
+Engineering,Energy Engineering,Nuclear power generation
+Engineering,Environmental Engineering,Air quality engineering
+Engineering,Environmental Engineering,Water quality engineering
+Engineering,Environmental Engineering,Solid and hazardous waste management
+Engineering,Environmental Engineering,Environmental chemistry and microbiology
+Engineering,Environmental Engineering,Environmental systems analysis and modeling
+Engineering,Environmental Engineering,Sustainable design and development
+Engineering,Geological Engineering,Geotechnical engineering
+Engineering,Geological Engineering,Rock mechanics
+Engineering,Geological Engineering,Mineral resource engineering
+Engineering,Geological Engineering,Geological hazards assessment
+Engineering,Geological Engineering,Environmental geology
+Engineering,Geological Engineering,Hydrogeology
+Engineering,Geotechnical Engineering,Geotechnical analysis and design
+Engineering,Geotechnical Engineering,Soil mechanics and foundation engineering
+Engineering,Geotechnical Engineering,Earthquake engineering
+Engineering,Geotechnical Engineering,Rock mechanics
+Engineering,Geotechnical Engineering,Environmental geotechnics
+Engineering,Geotechnical Engineering,Ground improvement techniques
+Engineering,Industrial Engineering,Operations research and optimization
+Engineering,Industrial Engineering,Manufacturing systems engineering
+Engineering,Industrial Engineering,Human factors and ergonomics
+Engineering,Industrial Engineering,Quality engineering
+Engineering,Industrial Engineering,Engineering management
+Engineering,Industrial Engineering,Supply chain management
+Engineering,Instrumentation Engineering,Control systems engineering
+Engineering,Instrumentation Engineering,Process control engineering
+Engineering,Instrumentation Engineering,Robotics engineering
+Engineering,Instrumentation Engineering,Industrial automation engineering
+Engineering,Instrumentation Engineering,Mechatronics engineering
+Engineering,Manufacturing Engineering,Industrial engineering
+Engineering,Manufacturing Engineering,Production engineering
+Engineering,Manufacturing Engineering,Process engineering
+Engineering,Manufacturing Engineering,Materials engineering
+Engineering,Manufacturing Engineering,Quality engineering
+Engineering,Marine Engineering,Naval architecture
+Engineering,Marine Engineering,Shipbuilding
+Engineering,Marine Engineering,Ocean engineering
+Engineering,Marine Engineering,Offshore engineering
+Engineering,Materials Engineering,Polymer engineering
+Engineering,Materials Engineering,Ceramic engineering
+Engineering,Materials Engineering,Metallurgical engineering
+Engineering,Materials Engineering,Electronic materials engineering
+Engineering,Materials Engineering,Biomaterials engineering
+Engineering,Mechanical Engineering,Thermodynamics
+Engineering,Mechanical Engineering,Dynamics and control
+Engineering,Mechanical Engineering,Mechanics and materials
+Engineering,Mechanical Engineering,Manufacturing
+Engineering,Mechanical Engineering,Robotics and mechatronics
+Engineering,Mechanical Engineering,Biomechanical engineering
+Engineering,Mechanical Engineering,Aerospace engineering
+Engineering,Mechatronics Engineering,Mechanics
+Engineering,Mechatronics Engineering,Electronics
+Engineering,Mechatronics Engineering,Robotics
+Engineering,Mechatronics Engineering,Control systems
+Engineering,Mechatronics Engineering,Computer engineering
+Engineering,Mechatronics Engineering,Telecommunications
+Engineering,Metallurgical Engineering,Extractive metallurgy
+Engineering,Metallurgical Engineering,Physical metallurgy
+Engineering,Metallurgical Engineering,Manufacturing metallurgy
+Engineering,Mining Engineering,Mineral processing
+Engineering,Mining Engineering,Mine ventilation
+Engineering,Mining Engineering,Rock mechanics
+Engineering,Mining Engineering,Mine surveying
+Engineering,Mining Engineering,Mineral economics
+Engineering,Nanotechnology Engineering,Material science
+Engineering,Nanotechnology Engineering,Chemical engineering
+Engineering,Nanotechnology Engineering,Electrical engineering
+Engineering,Nanotechnology Engineering,Biotechnology
+Engineering,Nanotechnology Engineering,Physics
+Engineering,Naval Architecture and Marine Engineering,Hydrostatics and stability
+Engineering,Naval Architecture and Marine Engineering,Resistance and propulsion
+Engineering,Naval Architecture and Marine Engineering,Structures and materials
+Engineering,Naval Architecture and Marine Engineering,Marine design
+Engineering,Naval Architecture and Marine Engineering,Offshore engineering
+Engineering,Nuclear Engineering,Nuclear power generation
+Engineering,Nuclear Engineering,Nuclear materials
+Engineering,Nuclear Engineering,Nuclear fusion research
+Engineering,Nuclear Engineering,Medical physics
+Engineering,Nuclear Engineering,Radiation protection
+Engineering,Petroleum Engineering,Drilling engineering
+Engineering,Petroleum Engineering,Reservoir engineering
+Engineering,Petroleum Engineering,Production engineering
+Engineering,Petroleum Engineering,Formation evaluation
+Engineering,Petroleum Engineering,Offshore engineering
+Engineering,Plastics Engineering,Polymer chemistry
+Engineering,Plastics Engineering,Polymer processing
+Engineering,Plastics Engineering,Polymer engineering
+Engineering,Plastics Engineering,Composites engineering
+Engineering,Process Engineering,Chemical engineering
+Engineering,Process Engineering,Biochemical engineering
+Engineering,Process Engineering,Environmental engineering
+Engineering,Process Engineering,Process design
+Engineering,Process Engineering,Process simulation
+Engineering,Production Engineering,Process engineering
+Engineering,Production Engineering,Manufacturing engineering
+Engineering,Production Engineering,Industrial engineering
+Engineering,Production Engineering,Operations management
+Engineering,Robotics Engineering,Mechanical engineering
+Engineering,Robotics Engineering,Electrical engineering
+Engineering,Robotics Engineering,Computer engineering
+Engineering,Robotics Engineering,Control engineering
+Engineering,Robotics Engineering,Mechatronics engineering
+Engineering,Robotics Engineering,Artificial intelligence
+Engineering,Software Engineering,Computer programming
+Engineering,Software Engineering,Software design
+Engineering,Software Engineering,Software testing
+Engineering,Software Engineering,Software maintenance
+Engineering,Software Engineering,Project management
+Engineering,Structural Engineering,Structural mechanics
+Engineering,Structural Engineering,Structural materials
+Engineering,Structural Engineering,Structural dynamics
+Engineering,Structural Engineering,Earthquake engineering
+Engineering,Structural Engineering,Wind engineering
+Engineering,Structural Engineering,Structural analysis and design
+Engineering,Surveying Engineering,Land surveying
+Engineering,Surveying Engineering,Geodetic surveying
+Engineering,Surveying Engineering,Photogrammetry
+Engineering,Surveying Engineering,Remote sensing
+Engineering,Surveying Engineering,Geomatics
+Engineering,Systems Engineering,Systems design
+Engineering,Systems Engineering,Systems analysis
+Engineering,Systems Engineering,Systems integration
+Engineering,Systems Engineering,Systems validation and testing
+Engineering,Systems Engineering,Project management
+Engineering,Textile Engineering,Yarn engineering
+Engineering,Textile Engineering,Fabric engineering
+Engineering,Textile Engineering,Garment engineering
+Engineering,Textile Engineering,Technical textiles
+Engineering,Textile Engineering,Nonwoven engineering
+Engineering,Thermal Engineering,Thermodynamics
+Engineering,Thermal Engineering,Heat transfer
+Engineering,Thermal Engineering,Combustion engineering
+Engineering,Thermal Engineering,Energy conversion
+Engineering,Thermal Engineering,Refrigeration and air conditioning
+Engineering,Traffic Engineering,Transportation planning
+Engineering,Traffic Engineering,Traffic safety
+Engineering,Traffic Engineering,Traffic flow theory
+Engineering,Traffic Engineering,Intelligent transportation systems
+Engineering,Traffic Engineering,Transportation and the environment
+Engineering,Transportation Engineering,Highway engineering
+Engineering,Transportation Engineering,Railway engineering
+Engineering,Transportation Engineering,Airport engineering
+Engineering,Transportation Engineering,Port engineering
+Engineering,Transportation Engineering,Urban transportation planning
+Engineering,Urban Engineering,Urban planning
+Engineering,Urban Engineering,Transportation planning
+Engineering,Urban Engineering,Environmental engineering
+Engineering,Urban Engineering,Water resources engineering
+Engineering,Urban Engineering,Infrastructure engineering
+Engineering,Water Resources Engineering,Hydrology
+Engineering,Water Resources Engineering,Water resources systems engineering
+Engineering,Water Resources Engineering,Hydraulic engineering
+Engineering,Water Resources Engineering,Water quality engineering
+Engineering,Water Resources Engineering,Coastal engineering
+Engineering,Web Engineering,Web development
+Engineering,Web Engineering,Web design
+Engineering,Web Engineering,Web content management
+Engineering,Web Engineering,Web-based software development
+Engineering,Web Engineering,E-commerce development
+Engineering,Wind Engineering,Aerodynamics
+Engineering,Wind Engineering,Structural engineering
+Engineering,Wind Engineering,Wind energy systems
+Engineering,Wind Engineering,Computational fluid dynamics
+Engineering,Wind Engineering,Wind tunnel testing
+Engineering,Aerospace Engineering,Aerodynamics
+Engineering,Aerospace Engineering,Flight mechanics and controls
+Engineering,Aerospace Engineering,Structural mechanics
+Engineering,Aerospace Engineering,Propulsion
+Engineering,Aerospace Engineering,Aerospace materials
+Engineering,Aerospace Engineering,Avionics and instrumentation
+Engineering,Aerospace Engineering,Space systems engineering
+Engineering,Agricultural Engineering,Farm machinery and power
+Engineering,Agricultural Engineering,Soil and water conservation engineering
+Engineering,Agricultural Engineering,Irrigation and drainage engineering
+Engineering,Agricultural Engineering,Postharvest engineering and technology
+Engineering,Agricultural Engineering,Agricultural process engineering
+Engineering,Agricultural Engineering,Bioprocess engineering
+Engineering,Agricultural Engineering,Aquacultural engineering
+Engineering,Architectural Engineering,Structural engineering
+Engineering,Architectural Engineering,Mechanical and electrical systems
+Engineering,Architectural Engineering,Construction management
+Engineering,Architectural Engineering,Building design and architecture
+Engineering,Architectural Engineering,Lighting and acoustics
+Engineering,Automotive Engineering,Vehicle design and analysis
+Engineering,Automotive Engineering,Automotive systems and controls
+Engineering,Automotive Engineering,Powertrain engineering
+Engineering,Automotive Engineering,Materials and manufacturing
+Engineering,Automotive Engineering,Alternative fuel technologies
+Engineering,Biological Engineering,Bioprocess engineering
+Engineering,Biological Engineering,Biomaterials and tissue engineering
+Engineering,Biological Engineering,Biomechanics
+Engineering,Biological Engineering,Biosensors and instrumentation
+Engineering,Biological Engineering,Genetic engineering
+Engineering,Biological Engineering,Systems biology and computational modeling
+Engineering,Chemical Engineering,Process design and analysis
+Engineering,Chemical Engineering,Thermodynamics
+Engineering,Chemical Engineering,Transport phenomena
+Engineering,Chemical Engineering,Chemical kinetics and reactor design
+Engineering,Chemical Engineering,Process dynamics and control
+Engineering,Chemical Engineering,Process safety and environmental protection
+Engineering,Civil Engineering,Structural engineering
+Engineering,Civil Engineering,Geotechnical engineering
+Engineering,Civil Engineering,Transportation engineering
+Engineering,Civil Engineering,Water resources engineering
+Engineering,Civil Engineering,Environmental engineering
+Engineering,Civil Engineering,Construction engineering and management
+Engineering,Civil Engineering,Surveying and geomatics engineering
+Engineering,Computer Engineering,Computer hardware
+Engineering,Computer Engineering,Computer software
+Engineering,Computer Engineering,Computer networks
+Engineering,Computer Engineering,Computer architecture
+Engineering,Computer Engineering,Digital signal processing
+Engineering,Computer Engineering,Embedded systems
+Engineering,Construction Engineering,Construction management
+Engineering,Construction Engineering,Project management
+Engineering,Construction Engineering,Building information modeling
+Engineering,Construction Engineering,Sustainable design and construction
+Engineering,Construction Engineering,Construction materials and methods
+Engineering,Construction Engineering,Structural design
+Engineering,Control Engineering,Control theory
+Engineering,Control Engineering,Control systems analysis and design
+Engineering,Control Engineering,Digital signal processing
+Engineering,Control Engineering,Robotics and automation
+Engineering,Control Engineering,Mechatronics
+Engineering,Control Engineering,Artificial intelligence
+Engineering,Earthquake Engineering,Seismology
+Engineering,Earthquake Engineering,Earthquake hazard assessment
+Engineering,Earthquake Engineering,Structural dynamics and earthquake engineering
+Engineering,Earthquake Engineering,Soil dynamics and earthquake engineering
+Engineering,Earthquake Engineering,Risk and reliability analysis
+Engineering,Earthquake Engineering,Disaster mitigation and management
+Engineering,Electrical Engineering,Electric power systems
+Engineering,Electrical Engineering,Control systems
+Engineering,Electrical Engineering,Electronics
+Engineering,Electrical Engineering,Digital signal processing
+Engineering,Electrical Engineering,Telecommunications
+Engineering,Electrical Engineering,Computer engineering
+Engineering,Electrical Engineering,Microelectronics
+Engineering,Electronics Engineering,Circuit theory and design
+Engineering,Electronics Engineering,Digital electronics
+Engineering,Electronics Engineering,Microelectronics
+Engineering,Electronics Engineering,Analog electronics
+Engineering,Electronics Engineering,Semiconductor devices
+Engineering,Electronics Engineering,Electromagnetic theory
+Engineering,Electronics Engineering,VLSI design
+Engineering,Energy Engineering,Energy systems engineering
+Engineering,Energy Engineering,Renewable energy systems and technologies
+Engineering,Energy Engineering,Energy efficiency and conservation
+Engineering,Energy Engineering,Energy policy and economics
+Engineering,Energy Engineering,Fossil fuel technologies
+Engineering,Energy Engineering,Nuclear power generation
+Engineering,Environmental Engineering,Air quality engineering
+Engineering,Environmental Engineering,Water quality engineering
+Engineering,Environmental Engineering,Solid and hazardous waste management
+Engineering,Environmental Engineering,Environmental chemistry and microbiology
+Engineering,Environmental Engineering,Environmental systems analysis and modeling
+Engineering,Environmental Engineering,Sustainable design and development
+Engineering,Geological Engineering,Geotechnical engineering
+Engineering,Geological Engineering,Rock mechanics
+Engineering,Geological Engineering,Mineral resource engineering
+Engineering,Geological Engineering,Geological hazards assessment
+Engineering,Geological Engineering,Environmental geology
+Engineering,Geological Engineering,Hydrogeology
+Engineering,Geotechnical Engineering,Geotechnical analysis and design
+Engineering,Geotechnical Engineering,Soil mechanics and foundation engineering
+Engineering,Geotechnical Engineering,Earthquake engineering
+Engineering,Geotechnical Engineering,Rock mechanics
+Engineering,Geotechnical Engineering,Environmental geotechnics
+Engineering,Geotechnical Engineering,Ground improvement techniques
+Engineering,Industrial Engineering,Operations research and optimization
+Engineering,Industrial Engineering,Manufacturing systems engineering
+Engineering,Industrial Engineering,Human factors and ergonomics
+Engineering,Industrial Engineering,Quality engineering
+Engineering,Industrial Engineering,Engineering management
+Engineering,Industrial Engineering,Supply chain management
+Science,Astronomy,Astrophysics
+Science,Astronomy,Planetary science
+Science,Astronomy,Stellar astronomy
+Science,Astronomy,Extragalactic astronomy
+Science,Astronomy,Cosmology
+Science,Biology,Biochemistry
+Science,Biology,Biophysics
+Science,Biology,Cell biology
+Science,Biology,Genetics
+Science,Biology,Microbiology
+Science,Biology,Molecular biology
+Science,Biology,Ecology
+Science,Biology,Evolutionary biology
+Science,Biology,Zoology
+Science,Biology,Botany
+Science,Chemistry,Analytical chemistry
+Science,Chemistry,Biochemistry
+Science,Chemistry,Inorganic chemistry
+Science,Chemistry,Organic chemistry
+Science,Chemistry,Physical chemistry
+Science,Earth Science,Geology
+Science,Earth Science,Meteorology
+Science,Earth Science,Oceanography
+Science,Earth Science,Environmental science
+Science,Ecology,Ecosystem ecology
+Science,Ecology,Conservation biology
+Science,Ecology,Landscape ecology
+Science,Ecology,Restoration ecology
+Science,Environmental Science,Environmental chemistry
+Science,Environmental Science,Environmental biology
+Science,Environmental Science,Environmental physics
+Science,Environmental Science,Environmental engineering
+Science,Genetics,Molecular genetics
+Science,Genetics,Population genetics
+Science,Genetics,Evolutionary genetics
+Science,Geology,Petroleum geology
+Science,Geology,Structural geology
+Science,Geology,Geochemistry
+Science,Geology,Geophysics
+Science,Geology,Paleontology
+Science,Mathematics,Algebra
+Science,Mathematics,Geometry
+Science,Mathematics,Calculus
+Science,Mathematics,Trigonometry
+Science,Mathematics,Number theory
+Science,Mathematics,Statistics
+Science,Neuroscience,Behavioral neuroscience
+Science,Neuroscience,Cellular neuroscience
+Science,Neuroscience,Cognitive neuroscience
+Science,Oceanography,Biological oceanography
+Science,Oceanography,Chemical oceanography
+Science,Oceanography,Geological oceanography
+Science,Oceanography,Physical oceanography
+Science,Physics,Astrophysics
+Science,Physics,Atomic physics
+Science,Physics,Condensed matter physics
+Science,Physics,High energy physics
+Science,Physics,Nuclear physics
+Science,Psychology,Abnormal psychology
+Science,Psychology,Behavioral psychology
+Science,Psychology,Cognitive psychology
+Science,Psychology,Developmental psychology
+Science,Psychology,Social psychology

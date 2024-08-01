@@ -1,0 +1,2 @@
+ALTER USER 'adminAIGeniusX'@'localhost'
+  IDENTIFIED BY 'okeABC12345@#' PASSWORD EXPIRE;

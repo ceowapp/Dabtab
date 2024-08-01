@@ -1,0 +1,25 @@
+{
+    "id": "AEDD76BE",
+    "path": null,
+    "project_path": null,
+    "type": "r_code_browser",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1681641772047.0,
+    "source_on_save": false,
+    "relative_order": 43,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "context": "package:base:::data.frame"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1681641663,
+    "encoding": "",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1681641772047,
+    "read_only": false,
+    "read_only_alternatives": []
+}

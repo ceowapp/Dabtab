@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head> 
+  <title>&lt;model-viewer&gt; example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Dancing+Script">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+  <link rel="stylesheet" href="style.css">
+  <!-- jQuery (optional, include it if needed) -->
+ <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<style>
+
+</style>
+</head>
+<body>
+   <div class="notification">
+      <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+      <p>Let's play a simple game</p>
+      <p><b>Rule:</b></p>
+      <p>Click on the blue ball to sign up</p>
+    </div>
+<div class="login-playground">
+// This is the playground 
+</div>
+<div class="container" id="container">
+        <div class="form-container sign-up-container">
+          <svg viewBox="0 0 330 300">
+          <defs>
+            <linearGradient
+              inkscape:collect="always"
+              id="linearGradient"
+              x1="13"
+              y1="193.49992"
+              x2="307"
+              y2="193.49992"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop
+                style="stop-color:#ff00ff;"
+                offset="0"
+                id="stop876"
+              />
+              <stop
+                style="stop-color:#ff0000;"
+                offset="1"
+                id="stop878"
+              />
+            </linearGradient>
+          </defs>
+          <path id="path_signup" d="m 30,70.00016 265,-3.2e-4 c 0,0 20,0.79932 25.00016,36.5 0.008,36.5 -25.00016,36.5 -25.00016,36.5 h -265 c 0,-0.0205 -25,4.01348 -25,38.5 0,34.48652 25,38.5 25,38.5 h 240 c 0,0 20,0.79932 25.00016,35.00016 0.008,34.20084 -25.00016,35 -25.00016,38.5 h -230 c 0,0 -20,0.79932 -20,-22 0.008,-22 20,-22 20,-22 h 210 c 0,0 20,0.79932 20,22 0.008,22 -20,22 -20,22 h -210 c 0,0 -20,0.79932 -20,-22 0.008,-22 20,-22 20,-22"/>
+        </svg>
+            <form class="form" id="signUpForm" method="post">
+              {% csrf_token %}
+              <h1>Create Account</h1>
+                <div class="social-container">
+                    <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+                    <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+                <span>or use your email for registration</span>
+                <div id="username_signup">        
+                <input type="text" id="firtname_signup" placeholder="Name" />
+                <input type="text" id="lastname_signup" placeholder="Name" />
+              </div>
+               <input type="email" id="email_signup" placeholder="Email" />
+                <input type="password" id="password_signup" placeholder="Password" />
+                <button type="submit" id="submitSignUp" class="btn-submit">SIGN UP</button>
+            </form>
+        </div>
+        <div class="form-container sign-in-container">
+
+           <svg viewBox="0 0 330 300">
+          <defs>
+            <linearGradient
+              inkscape:collect="always"
+              id="linearGradient"
+              x1="13"
+              y1="193.49992"
+              x2="307"
+              y2="193.49992"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop
+                style="stop-color:#ff00ff;"
+                offset="0"
+                id="stop876"
+              />
+              <stop
+                style="stop-color:#ff0000;"
+                offset="1"
+                id="stop878"
+              />
+            </linearGradient>
+          </defs>
+          <path id="path_signin" d="m 30,70.00016 265,-3.2e-4 c 0,0 20,0.79932 25.00016,36.5 0.008,36.5 -25.00016,36.5 -25.00016,36.5 h -265 c 0,-0.0205 -25,4.01348 -25,38.5 0,34.48652 25,38.5 25,38.5 h 240 c 0,0 20,0.79932 25.00016,35.00016 0.008,34.20084 -25.00016,35 -25.00016,38.5 h -230 c 0,0 -20,0.79932 -20,-28 0.008,-28 20,-28 20,-28 h 210 c 0,0 20,0.79932 20,22 0.008,22 -20,22 -20,22 h -210 c 0,0 -20,0.79932 -20,-22 0.008,-22 20,-22 20,-22"/>
+        </svg>
+             <form class="form" id="signInForm" method="post">
+              {% csrf_token %}
+                <h1>Sign in</h1>
+                <div class="social-container">
+                    <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+                    <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+                <span>or use your account</span>
+                <input type="email" id="email_signin" placeholder="Email" />
+                <input type="password" id="password_signin" placeholder="Password" />
+                <a href="http://www_basic/login_recover.html">Forgot your password?</a>
+                <button type="submit" id="submitSignIn" class="btn-submit">SIGN IN</button>
+            </form>
+        </div>
+        <div class="overlay-container">
+            <div class="overlay">
+                <div class="overlay-panel overlay-left">
+                    <h1>Welcome Back!</h1>
+                    <p>To keep connected with us, please login with your personal info</p>
+                    <button class="ghost" id="signInBtn">Sign In</button>
+                </div>
+                <div class="overlay-panel overlay-right">
+                    <h1>Hello, Friend!</h1>
+                    <p>Enter your personal details and start your journey with us</p>
+                    <button class="ghost" id="signUpBtn">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </div>
+  <div id="alert" style="display: none;"></div>
+<div class="welcomeModal">
+  <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+  <p>Welcome {username}</p>
+</div>
+<script src="login.js"></script>
+</body>
+</html>
+
+
+
+
+
+

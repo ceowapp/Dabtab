@@ -1,0 +1,109 @@
+library('plotly')
+library('dplyr')
+library('tidyr')
+library('ggplot2')
+library('shiny')
+library('shinydashboard')
+library('leaflet')
+library('shinyWidgets')
+library('bs4Dash')
+library('shinyjs')
+library('shinythemes')
+library(sodium)
+library(DT)
+library('thematic')
+library('bslib')
+library('ggthemes')
+library("shinycssloaders")
+library('tidyverse')
+library('rlang')
+library('import')
+library("shinyFiles")
+library(glue)
+library(dabtab)
+library("memoise")
+library(data.table)
+library(rintrojs)
+library(hunspell)
+library(stringr)
+library(htmltools)
+library(data.table)
+library(shinysky)
+library(rpart)
+library(rpart.plot)
+library(periscope)
+library(collapsibleTree)
+
+if (interactive()) {
+
+  ui<-fluidPage(theme = bslib::bs_theme(version = 4),
+                introjsUI(),
+                useShinyjs(),
+                useSweetAlert(),
+
+                tags$style(
+                  type="text/css",
+                  ".shiny-output-error { visibility: hidden; }",
+                  ".shiny-output-error:before { visibility: hidden; }"
+                ),
+                tags$style(type="text/css",".shiny-output-error { visibility: hidden; }",".shiny-output-error:before { visibility: hidden; }"),
+                tags$style(type="text/css","#search { top: 40% !important;left: 50% !important;margin-top: -100px !important;margin-left: -600px
+             !important; color: blue;font-size: 20px;font-style: italic;}"),
+                tags$style(HTML("
+                  .input {
+                  width: 200px;
+                  }
+                  ")),
+
+                tags$style(HTML("
+                  .tt-hint {
+                  width: 50%;
+                  }
+                  ")),
+
+                tags$head(
+                  tags$style(
+                    HTML(
+                      "
+
+
+              .navbar-nav:last-child {
+              margin-right: 50px;
+              margin-left: auto;
+
+              }
+
+              .logout-btn {
+                background-color: red;
+                color: white;
+                border: none;
+                font-size: 16px;
+                padding: 10px;
+                text-align: center;
+                cursor: pointer;
+                border-radius: 4px;
+              }
+
+
+                edited-cell {
+                  background-color: lightyellow;
+                },
+
+
+              .logout-btn:hover {
+                background-color: #e60000;
+              }
+
+
+              .navbar-nav:last-of-type .nav-item:nth-child(2) {
+              margin-right: 0px;
+              margin-left: auto;
+
+              }
+
+              " )
+                  )),
+                uiOutput("pageUI")
+  )
+
+}

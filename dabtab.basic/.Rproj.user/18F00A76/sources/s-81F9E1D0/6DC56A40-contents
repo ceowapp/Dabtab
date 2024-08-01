@@ -1,0 +1,126 @@
+library(shiny)
+library('bs4Dash')
+
+processUI <- fillPage(
+  tags$style(type = "text/css",
+             ".half-fill { flex-basis: 19%; height: 100%; margin: 5px 1%; border: 1px solid black; }",
+             ".fill-row { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; }",
+             ".img-container { text-align: center; margin-top: 10px; }"
+  ),
+  actionButton("go_to_advanced", icon = icon("arrow-left"), "Go to Process Page", class = "btn btn-primary"),
+
+  fillRow(
+    class = "fill-row",
+    width = "100%",
+    height = "380px",
+    tags$div(
+      class = "half-fill",
+      style = "display: flex; flex-direction: column; align-items: center; justify-content: center;",
+      img(src="https://media.istockphoto.com/id/1347219231/vector/sample-from-target-population-isolated-on-white-simple-random-sampling-group-of-people-and.jpg?s=612x612&w=0&k=20&c=i75v-CtavvS0e72xcyvYI37-O3N78QZ5IF2RIHUyaLQ=",
+          height=160,width="auto",
+          style="display: block; margin-left: auto; margin-right: auto; margin-top: 10px;"),
+      tags$h1("Basic Analysis", style = "font-size: 18px; font-weight: bold; text-align: center; margin-top: 20px;"),
+      tags$h2("Click the button below to sample the dataset", style = "font-size: 12px; text-align: center; margin-top: 10px;"),
+      actionButton("go_to_sampling","Click here", class = "btn btn-primary", style = "margin-top: 10px; text-align: center;")
+    ),
+    tags$div(
+      class = "half-fill",
+      style = "display: flex; flex-direction: column; align-items: center; justify-content: center;",
+      img(src="https://media.istockphoto.com/id/1347219231/vector/sample-from-target-population-isolated-on-white-simple-random-sampling-group-of-people-and.jpg?s=612x612&w=0&k=20&c=i75v-CtavvS0e72xcyvYI37-O3N78QZ5IF2RIHUyaLQ=",
+          height=160,width="auto",
+          style="display: block; margin-left: auto; margin-right: auto; margin-top: 10px;"),
+      tags$h1("Random Sampling", style = "font-size: 18px; font-weight: bold; text-align: center; margin-top: 20px;"),
+      tags$h2("Click the button below to sample the dataset", style = "font-size: 12px; text-align: center; margin-top: 10px;"),
+      actionButton("go_to_sampling_1","Click here", class = "btn btn-primary", style = "margin-top: 10px; text-align: center;")
+    ),
+    tags$div(
+      class = "half-fill",
+      style = "display: flex; flex-direction: column; align-items: center; justify-content: center;",
+      img(src="https://media.istockphoto.com/id/1347219231/vector/sample-from-target-population-isolated-on-white-simple-random-sampling-group-of-people-and.jpg?s=612x612&w=0&k=20&c=i75v-CtavvS0e72xcyvYI37-O3N78QZ5IF2RIHUyaLQ=",
+          height=160,width="auto",
+          style="display: block; margin-left: auto; margin-right: auto; margin-top: 10px;"),
+      tags$h1("Random Sampling", style = "font-size: 18px; font-weight: bold; text-align: center; margin-top: 20px;"),
+      tags$h2("Click the button below to sample the dataset", style = "font-size: 12px; text-align: center; margin-top: 10px;"),
+      actionButton("go_to_sampling_2","Click here", class = "btn btn-primary", style = "margin-top: 10px; text-align: center;")
+    ),
+    tags$div(
+      class = "half-fill",
+      style = "display: flex; flex-direction: column; align-items: center; justify-content: center;",
+      img(src="https://media.istockphoto.com/id/1347219231/vector/sample-from-target-population-isolated-on-white-simple-random-sampling-group-of-people-and.jpg?s=612x612&w=0&k=20&c=i75v-CtavvS0e72xcyvYI37-O3N78QZ5IF2RIHUyaLQ=",
+          height=160,width="auto",
+          style="display: block; margin-left: auto; margin-right: auto; margin-top: 10px;"),
+      tags$h1("Random Sampling", style = "font-size: 18px; font-weight: bold; text-align: center; margin-top: 20px;"),
+      tags$h2("Click the button below to sample the dataset", style = "font-size: 12px; text-align: center; margin-top: 10px;"),
+      actionButton("go_to_sampling_3","Click here", class = "btn btn-primary", style = "margin-top: 10px; text-align: center;")
+    ),
+    tags$div(
+      class = "half-fill",
+      style = "display: flex; flex-direction: column; align-items: center; justify-content: center;",
+      img(src="https://media.istockphoto.com/id/1347219231/vector/sample-from-target-population-isolated-on-white-simple-random-sampling-group-of-people-and.jpg?s=612x612&w=0&k=20&c=i75v-CtavvS0e72xcyvYI37-O3N78QZ5IF2RIHUyaLQ=",
+          height=160,width="auto",
+          style="display: block; margin-left: auto; margin-right: auto; margin-top: 10px;"),
+      tags$h1("Random Sampling", style = "font-size: 18px; font-weight: bold; text-align: center; margin-top: 20px;"),
+      tags$h2("Click the button below to sample the dataset", style = "font-size: 12px; text-align: center; margin-top: 10px;"),
+      actionButton("go_to_sampling_4","Click here", class = "btn btn-primary", style = "margin-top: 10px; text-align: center;")
+    )
+
+  ),
+  br(),
+
+  fillRow(
+    class = "fill-row",
+    width = "100%",
+    height = "380px",
+    tags$div(
+      class = "half-fill",
+      style = "display: flex; flex-direction: column; align-items: center; justify-content: center;",
+      img(src="https://media.istockphoto.com/id/1347219231/vector/sample-from-target-population-isolated-on-white-simple-random-sampling-group-of-people-and.jpg?s=612x612&w=0&k=20&c=i75v-CtavvS0e72xcyvYI37-O3N78QZ5IF2RIHUyaLQ=",
+          height=160,width="auto",
+          style="display: block; margin-left: auto; margin-right: auto; margin-top: 10px;"),
+      tags$h1("Random Sampling", style = "font-size: 18px; font-weight: bold; text-align: center; margin-top: 20px;"),
+      tags$h2("Click the button below to sample the dataset", style = "font-size: 12px; text-align: center; margin-top: 10px;"),
+      actionButton("go_to_sampling_5","Click here", class = "btn btn-primary", style = "margin-top: 10px; text-align: center;")
+    ),
+    tags$div(
+      class = "half-fill",
+      style = "display: flex; flex-direction: column; align-items: center; justify-content: center;",
+      img(src="https://media.istockphoto.com/id/1347219231/vector/sample-from-target-population-isolated-on-white-simple-random-sampling-group-of-people-and.jpg?s=612x612&w=0&k=20&c=i75v-CtavvS0e72xcyvYI37-O3N78QZ5IF2RIHUyaLQ=",
+          height=160,width="auto",
+          style="display: block; margin-left: auto; margin-right: auto; margin-top: 10px;"),
+      tags$h1("Random Sampling", style = "font-size: 18px; font-weight: bold; text-align: center; margin-top: 20px;"),
+      tags$h2("Click the button below to sample the dataset", style = "font-size: 12px; text-align: center; margin-top: 10px;"),
+      actionButton("go_to_sampling_6","Click here", class = "btn btn-primary", style = "margin-top: 10px; text-align: center;")
+    ),
+    tags$div(
+      class = "half-fill",
+      style = "display: flex; flex-direction: column; align-items: center; justify-content: center;",
+      img(src="https://media.istockphoto.com/id/1347219231/vector/sample-from-target-population-isolated-on-white-simple-random-sampling-group-of-people-and.jpg?s=612x612&w=0&k=20&c=i75v-CtavvS0e72xcyvYI37-O3N78QZ5IF2RIHUyaLQ=",
+          height=160,width="auto",
+          style="display: block; margin-left: auto; margin-right: auto; margin-top: 10px;"),
+      tags$h1("Random Sampling", style = "font-size: 18px; font-weight: bold; text-align: center; margin-top: 20px;"),
+      tags$h2("Click the button below to sample the dataset", style = "font-size: 12px; text-align: center; margin-top: 10px;"),
+      actionButton("go_to_sampling_7","Click here", class = "btn btn-primary", style = "margin-top: 10px; text-align: center;")
+    ),
+    tags$div(
+      class = "half-fill",
+      style = "display: flex; flex-direction: column; align-items: center; justify-content: center;",
+      img(src="https://media.istockphoto.com/id/1347219231/vector/sample-from-target-population-isolated-on-white-simple-random-sampling-group-of-people-and.jpg?s=612x612&w=0&k=20&c=i75v-CtavvS0e72xcyvYI37-O3N78QZ5IF2RIHUyaLQ=",
+          height=160,width="auto",
+          style="display: block; margin-left: auto; margin-right: auto; margin-top: 10px;"),
+      tags$h1("Random Sampling", style = "font-size: 18px; font-weight: bold; text-align: center; margin-top: 20px;"),
+      tags$h2("Click the button below to sample the dataset", style = "font-size: 12px; text-align: center; margin-top: 10px;"),
+      actionButton("go_to_sampling_8","Click here", class = "btn btn-primary", style = "margin-top: 10px; text-align: center;")
+    ),
+    tags$div(
+      class = "half-fill",
+      style = "display: flex; flex-direction: column; align-items: center; justify-content: center;",
+      img(src="https://media.istockphoto.com/id/1347219231/vector/sample-from-target-population-isolated-on-white-simple-random-sampling-group-of-people-and.jpg?s=612x612&w=0&k=20&c=i75v-CtavvS0e72xcyvYI37-O3N78QZ5IF2RIHUyaLQ=",
+          height=160,width="auto",
+          style="display: block; margin-left: auto; margin-right: auto; margin-top: 10px;"),
+      tags$h1("Random Sampling", style = "font-size: 18px; font-weight: bold; text-align: center; margin-top: 20px;"),
+      tags$h2("Click the button below to sample the dataset", style = "font-size: 12px; text-align: center; margin-top: 10px;"),
+      actionButton("go_to_sampling_9","Click here", class = "btn btn-primary", style = "margin-top: 10px; text-align: center;")
+    )
+
+  )
+)

@@ -1,0 +1,38 @@
+library(shiny)
+
+ui <- navbarPage("My App",
+                 
+                 tabPanel("Navbar",
+                          fluidRow(column(width = 12,
+                                          actionButton("go_to_fill", "Go to Fill Page")))),
+                 
+                 tabPanel("Fill Page",
+                          fluidRow(column(width = 12,
+                                          actionButton("go_to_dashboard", "Go to Dashboard")))),
+                 
+                 tabPanel("Dashboard",
+                          fluidRow(column(width = 12,
+                                          actionButton("go_to_fill_from_dashboard", "Go to Fill Page"),
+                                          actionButton("go_to_navbar", "Go to Navbar"))))))
+
+server <- function(input, output, session) {
+  
+  observeEvent(input$go_to_fill, {
+    session$sendCustomMessage(type = "changePage", message = "/fill_ui")
+  })
+  
+  observeEvent(input$go_to_dashboard, {
+    session$sendCustomMessage(type = "changePage", message = "/dashboard_ui")
+  })
+  
+  observeEvent(input$go_to_fill_from_dashboard, {
+    session$sendCustomMessage(type = "changePage", message = "/fill_ui")
+  })
+  
+  observeEvent(input$go_to_navbar, {
+    session$sendCustomMessage(type = "changePage", message = "/")
+  })
+  
+}
+
+shinyApp(ui, server)

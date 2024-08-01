@@ -1,0 +1,63 @@
+source("dabtab.R")
+library("shinyFiles")
+
+
+dataViewerUI <- function(id) {
+  ns <- NS(id)
+  column(width=10,
+         wellPanel(
+           selectInput(
+             inputId = ns("file_type"),
+             label = "Choose file format",
+             choices = c("csv", "rds", "rda", "rdata", "txt")
+           ),
+           shinyFiles::shinyFilesButton(id=ns("files"),
+                                              label="Click Here to Select",
+                                              title="Select a file",
+                                              multiple= TRUE,
+                                              buttonType = "default",
+                                              class = NULL) ,
+           verbatimTextOutput(outputId = ns("output"))
+         )
+
+  )
+
+
+}
+
+myUploadServer <- function(id) {
+  moduleServer(
+    id,
+    function(input, output, session) {
+      ns <- session$ns
+      filepath <- reactiveValues(path = NULL)
+      observeEvent(c(input$file_type, input$files), {
+        root_dirs <- c(wd = '.')
+        filetypes <- c('', input$file_type)
+        shinyFiles::  shinyFileChoose(input, id=ns("files"), roots=root_dirs, session=session)
+        filepath$path <- shinyFiles::parseFilePaths(roots=root_dirs, input$files)%>% select(datapath) %>%
+          mutate(directory = sub("(^.*/)([^/]+)$", "\\1", datapath),
+                 filename = sub("(^.*/)([^/]+)$", "\\2", datapath)) %>%
+          select(directory,filename)
+        n_files <- nrow(filepath$path)
+        if (n_files == 0) {
+          output$output <- renderText({
+            paste0("Choose file to upload")
+          })}
+        else if (n_files == 1) {
+          output$output <- renderText({
+            paste0("Successfully uploaded'", filepath$path$filename, "'.")
+          })
+        } else {
+          output$output <- renderText({
+            paste0("Successfully uploaded '", n_files,"'files.")
+          })
+        }
+      })
+
+      return(filepath)
+
+    }
+  )
+}
+

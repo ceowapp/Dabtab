@@ -1,0 +1,384 @@
+library('plotly')
+library('dplyr')
+library('tidyr')
+library('ggplot2')
+library('shiny')
+library('shinydashboard')
+library('leaflet')
+library('shinyWidgets')
+library('bs4Dash')
+library('shinyjs')
+library('shinythemes')
+library(sodium)
+library(DT)
+library('thematic')
+library('bslib')
+library('ggthemes')
+library('shinycssloaders')
+library('tidyverse')
+library('rlang')
+
+
+# Set color scheme
+color_primary <- "#3498db"
+color_secondary <- "#2980b9"
+
+# CSS styles
+button_color_css <- "
+  .btn-primary {
+    background-color: #3498db;
+    border-color: #3498db;
+  }
+  .btn-primary:hover {
+    background-color: #2980b9;
+    border-color: #2980b9;
+  }
+"
+
+# Define UI
+landingPageUI <- fluidPage(
+
+  tags$head(
+    tags$style(
+      HTML("
+      .my-class {
+        margin-left: 20px;
+      }
+
+
+      .navbar-nav:last-child {
+      margin-right: 50px;
+      margin-left: auto;
+
+      }
+
+        .navbar-nav .nav-item {
+              white-space: nowrap;
+            }
+
+            .navbar-collapse {
+              overflow: visible !important;
+            }
+
+              .navbar-nav:last-of-type .nav-item:nth-child(2) {
+              margin-right: 0px;
+              margin-left: auto;
+
+              }
+    ")
+    )
+  )
+  ,
+  tags$head(
+    tags$style(
+      HTML("
+           .footer {
+               position: fixed;
+               bottom: 0px;
+               left: 0px;
+               width: 100%;
+               background-color: #f5f5f5;
+           }
+
+           .marquee {
+               animation: marquee 20s linear infinite;
+               white-space: nowrap;
+               overflow: hidden;
+           }
+
+           @keyframes marquee {
+               0% { transform: translateX(100%); }
+               100% { transform: translateX(-100%); }
+           }
+      ")
+    )
+  ),
+
+  useShinyjs(),
+  shiny::navbarPage(
+    "DabTab",
+    id = "main_navbar",
+    theme = "bootstrap.css",
+    inverse = TRUE,
+    position = "fixed-top",
+    header = tags$style(".navbar { background-color: #292b2c !important; }"),
+
+    # Main tab
+    shiny::tabPanel(
+      "Home",
+      icon = icon("home"),
+      shiny::fluidRow(
+        div(
+          class = "my-class",
+          shiny::fluidRow(
+            column(
+              12,
+              hr(),
+              hr(),
+              h2("Try DabTab Now"),
+              actionBttn(
+                inputId = "login",
+                label = "Sign up/ Login",
+                style = "jelly",
+                color = "primary"
+              ) ,
+
+
+              hr(),
+              h2("What is DabTab?"),
+              p(
+                "DabTab is a multi-disciplinary field that involves using scientific methods, processes, algorithms, and systems to extract knowledge and insights from structured and unstructured data."
+              ),
+
+              h1("Welcome to DabTab"),
+
+              div(
+                # Image with animation
+                img(id = "my_img", src = "DS.jpg", width="100%", height="auto",style = "filter: blur(0px); animation: blur_effect 3s forwards;"),
+                br(),
+                # Animation style
+                tags$style(
+                  "
+             @keyframes blur_effect {
+               from { filter: blur(0px); }
+               to { filter: blur(10px); }
+             }
+             "
+                ),
+                # Video
+                tags$video(
+                  id = "my_video",
+                  width = "100%",
+                  height = "auto",
+                  controls = TRUE,
+                  src="data_analytics.mp4",
+                  type = "video/mp4"
+                )
+              ),
+              tags$script(
+                "$(document).ready(function(){
+               $('#my_img').on('animationend webkitAnimationEnd oAnimationEnd', function(){
+                 $(this).hide();
+                 $('#my_video').show();
+               });
+             });"
+              ),
+
+              hr(),
+              h2("Why DabTab?"),
+              p(
+                "DabTab is an exciting and rapidly growing field that offers endless opportunities for innovation and discovery. With DabTab, you can gain new insights into your business, your customers, and the world around you."
+              ),
+              hr(),
+              h2("What Can You Do with DabTab?"),
+              p(
+                "With DabTab, you can do everything from predicting customer behavior to optimizing business processes to discovering new scientific insights. The possibilities are endless!"
+              ),
+              hr(),
+              h2("Start Your DabTab Journey Today!"),
+              p(
+                "Ready to get started? Click the button above to begin your DabTab project today!"
+              )
+            )
+          )
+        )
+      )
+
+    )
+    ,
+
+    shiny::navbarMenu(
+      "Messages",
+      icon = icon("comments"),
+      shiny::tabPanel(
+        "Explore more",
+        fluid = TRUE,
+        id = "tab40",
+        tags$style(button_color_css),
+        titlePanel("Explore more"),
+        shiny::fluidRow(
+          column(
+            6,
+            h3("Find out more about DabTab"),
+            p(
+              "DabTab is a fascinating field that is constantly evolving. There are always new tools, techniques, and technologies to explore. Here are a few resources to help you stay up-to-date with the latest trends and developments in DabTab:"
+            ),
+            tags$ul(
+              class = "list-unstyled",
+              tags$li(a(
+                "Kaggle",
+                href = "https://www.kaggle.com/",
+                target = "_blank"
+              )),
+              tags$li(a(
+                "DataCamp",
+                href = "https://www.datacamp.com/",
+                target = "_blank"
+              )),
+              tags$li(a(
+                "Coursera",
+                href = "https://www.coursera.org/",
+                target = "_blank"
+              ))
+            )
+          ),
+          column(
+            6,
+            h3("Connect with Other Data Scientists"),
+            p(
+              "One of the best ways to learn about DabTab is to connect with other data scientists. Here are a few communities and resources to help you get started:"
+            ),
+            tags$ul(
+              class = "list-unstyled",
+              tags$li(tags$a(
+                "DabTab Central",
+                href = "https://www.datasciencecentral.com/",
+                target = "_blank"
+              )),
+              tags$li(tags$a(
+                "Kaggle Community",
+                href = "https://www.kaggle.com/community",
+                target = "_blank"
+              )),
+              tags$li(tags$a(
+                "r/datascience",
+                href = "https://www.reddit.com/r/datascience/",
+                target = "_blank"
+              ))
+            )
+          )
+        )
+      ),
+      shiny::tabPanel(
+        "Ask me",
+        fluid = TRUE,
+        id = "tab46",
+        tags$style(button_color_css),
+        titlePanel("Ask me"),
+        fluidRow(
+          column(
+            6,
+            h3("Have a question? Ask me!"),
+            p(
+              "If you have a question about DabTab, feel free to ask me! I'll do my best to help you out."
+            ),
+            br(),
+            tags$form(
+              id = "question-form",
+              div(
+                class = "form-group",
+                tags$label("Name:"),
+                textInput(
+                  inputId = "question-name",
+                  label = "Name:",
+                  placeholder = "Enter your name",
+                  value = ""
+                )
+              ),
+              div(
+                class = "form-group",
+                tags$label("Email:"),
+                textInput(
+                  inputId = "question-email",
+                  label = "Email:",
+                  placeholder = "Enter your email",
+                  value = ""
+                )
+              ),
+              div(
+                class = "form-group",
+                tags$label("Question:"),
+                textAreaInput(
+                  inputId = "question-text",
+                  label = "Question:",
+                  placeholder = "Enter your question",
+                  rows = 5,
+                  value = ""
+                )
+              ),
+              div(
+                class = "form-group",
+                actionButton("submit-question", "Submit")
+              )
+            )
+          ),
+          column(
+            6,
+            h3("About me"),
+            p(
+              "I'm Dat Nguyen, an engineer whose passion is endless."),
+            br(),
+            p(
+              "Disclaimer: I'm just a machine learning model and my responses should not be taken as communities where you can connect with like-minded individuals and learn from their experiences:"
+            ),
+            tags$ul(
+              class = "list-unstyled",
+              tags$li(tags$a(
+                "DabTab Central",
+                href = "https://www.datasciencecentral.com/",
+                target = "_blank"
+              )),
+              tags$li(tags$a(
+                "Kaggle Community",
+                href = "https://www.kaggle.com/getting-started",
+                target = "_blank"
+              )),
+              tags$li(tags$a(
+                "Dataquest Community",
+                href = "https://community.dataquest.io/",
+                target = "_blank"
+              ))
+            )
+          )
+        )
+      ),
+      shiny::tabPanel(
+        "Q&A",
+        fluid = TRUE,
+        id = "tab47",
+        tags$style(button_color_css),
+        titlePanel("Ask me"),
+
+        # Question form
+        shiny::fluidRow(
+          column(
+            12,
+            h3("Ask me a question!"),
+            br(),
+            textInput(
+              inputId = "question",
+              label = "Type your question here:",
+              placeholder = "How does linear regression work?",
+              width = "100%"
+            ),
+            br(),
+            actionButton(
+              inputId = "submit_question",
+              label = "Submit",
+              class = "btn-primary"
+            ),
+            hr(),
+            uiOutput("answer")
+          )
+        )
+      )
+    ),
+
+    shiny::navbarMenu("Menu",
+               icon = icon("bars"),
+               shiny::tabPanel("Username", id="tab58",titlePanel(uiOutput("username_tab"))),
+               shiny::tabPanel("Permission", id="tab59",icon = icon("user-tag"),titlePanel(uiOutput("permission_tab"))),
+               shiny::tabPanel("Settings", id="tab60",icon = icon("cog")),
+               shiny::tabPanel("Support", id="tab61",icon = icon("hands-helping")),
+               shiny::tabPanel("More Info", id="tab62",icon = icon("info-circle"))
+
+    ),
+
+    div(class = "footer",
+        div(class = "marquee",
+            "This app will be free to all users.There is more in life than gathering money. Beyond all, DabTab is a continous efffort to help people.")
+    )
+  )
+
+)
+

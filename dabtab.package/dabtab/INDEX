@@ -1,0 +1,11 @@
+dabtab                  dabtab
+dabtab_url              Start dabtab but do not open a browser
+dabtab_viewer           Launch dabtab in the Rstudio viewer
+dabtab_window           Launch dabtab in an Rstudio window
+launcher                Create a launcher on the desktop for Windows
+                        (.bat), Mac (.command), or Linux (.sh)
+lin_launcher            Create a launcher and updater for Linux (.sh)
+mac_launcher            Create a launcher and updater for Mac
+                        (.command)
+win_launcher            Create a launcher and updater for Windows
+                        (.bat)

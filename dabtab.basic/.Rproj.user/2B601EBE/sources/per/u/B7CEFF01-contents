@@ -1,0 +1,39 @@
+library(shiny)
+library(shinyWidgets)
+
+countries_df <- read.csv("https://raw.githubusercontent.com/lukes/ISO-3166-Countries-with-Regional-Codes/master/all/all.csv", strip.white = TRUE)
+countries_df <- countries_df[c("name", "alpha.2")]
+countries_df$alpha.2 <- tolower(countries_df$alpha.2)
+
+countries_df <- countries_df[countries_df$name %in% countries2, ]
+
+img_urls <- paste0(
+  "https://cdn.rawgit.com/lipis/flag-icon-css/master/flags/4x3/",
+  countries_df$alpha.2, ".svg"
+)
+
+input_widget <- multiInput(
+  inputId = "Id010",
+  label = "Countries :",
+  choices = NULL,
+  selected = countries_df$name[1],
+  choiceNames = lapply(
+    seq_along(countries_df$alpha.2),
+    function(i) {
+      tagList(
+        tags$img(src = img_urls[i], width = 20, height = 15),
+        countries_df$name[i]
+      )
+    }
+  ),
+  choiceValues = countries_df$name
+)
+ui <- fluidPage(
+  input_widget
+)
+
+server <- function(input, output, session) {
+  
+}
+
+shinyApp(ui, server)

@@ -1,0 +1,27 @@
+{
+    "id": "77D7B043",
+    "path": "~/R/win-library/4.1/dabtab_rs/dabtab.basic/R/processing_page.R",
+    "project_path": "R/processing_page.R",
+    "type": "r_source",
+    "hash": "3211373868",
+    "contents": "",
+    "dirty": false,
+    "created": 1682093681105.0,
+    "source_on_save": false,
+    "relative_order": 16,
+    "properties": {
+        "tempName": "Untitled6",
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "105,100",
+        "scrollLine": "0"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1682592147,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1682592147324,
+    "read_only": false,
+    "read_only_alternatives": []
+}

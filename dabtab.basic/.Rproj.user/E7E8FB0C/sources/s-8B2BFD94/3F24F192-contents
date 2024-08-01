@@ -1,0 +1,101 @@
+library('plotly')
+library('dplyr')
+library('tidyr')
+library('ggplot2')
+library('shiny')
+library('shinydashboard')
+library('leaflet')
+library('shinyWidgets')
+library('bs4Dash')
+library('shinyjs')
+library('shinythemes')
+library(sodium)
+library(DT)
+library('thematic')
+library('bslib')
+library('ggthemes')
+library("shinycssloaders")
+library('tidyverse')
+library('rlang')
+library('import')
+library("shinyFiles")
+library(glue)
+library(dabtab)
+library("memoise")
+library(data.table)
+library(periscope)
+
+# Define UI
+ui <- fluidPage(
+  titlePanel("Download Data in Different Formats"),
+  sidebarLayout(
+    sidebarPanel(
+      selectInput(
+        inputId = "dataselect",
+        label = "Choose Data",
+        choices = c("iris", "mtcars", "CO2")
+      ),
+      pickerInput(
+        inputId = "format_1",
+        label = "Choose Data Format",
+        choices = c("csv", "rds", "rda", "rdata", "txt"),
+        multiple = TRUE,
+        options = pickerOptions(
+          actionsBox = TRUE,
+          title = "Please select data formats to download"
+        ),
+        choicesOpt = list(
+          content = sprintf("<span class='label label-%s'>%s</span>",
+                            c("csv", "rds", "rda", "rdata", "txt"),
+                            paste(c("csv", "rds", "rda", "rdata", "txt"))
+          )
+        )
+      ),
+      downloadFileButton("download", label = "Download")
+    ),
+    mainPanel(
+      tableOutput("data")
+    )
+  )
+)
+
+# Define server
+server <- function(input, output) {
+  data <- reactive({
+    switch(
+      input$dataselect,
+      iris = iris,
+      mtcars = mtcars,
+      CO2 = CO2
+    )
+  })
+  
+  output$data <- renderTable({
+    data()
+  })
+  
+  observeEvent(input$download, {
+    format <- input$format_1
+    ext <- switch(
+      format,
+      csv = "csv",
+      rds = "rds",
+      rda = "rda",
+      rdata = "rdata",
+      txt = "txt"
+    )
+    filename <- paste0("mydata.", ext)
+    content <- switch(
+      format,
+      csv = write.csv,
+      rds = saveRDS,
+      rda = function(file, data) { save(data, file = file) },
+      rdata = function(file, data) { save(data, file = file) },
+      txt = write.table
+    )
+    downloadFile(content = content, file = filename, data = data())
+  })
+}
+
+# Run the app
+shinyApp(ui, server)

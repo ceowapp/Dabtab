@@ -1,0 +1,512 @@
+# Initialize the undo stack with the original data frame
+undo_stack <- list(original_df)
+ui <- fluidPage(
+# Display the data frame
+dataTableOutput("data_table"),
+# Add a button to undo the last change
+actionButton("undo_button", "Undo")
+)
+server <- function(input, output, session) {
+# Store the current version of the data frame
+current_df <- reactiveVal(original_df)
+# Render the data frame as a table
+output$data_table <- renderDataTable({
+current_df()
+})
+# Add a column to track changes
+observeEvent(input$data_table_cell_edit, {
+# Save the previous version of the data frame
+undo_stack[[length(undo_stack) + 1]] <- current_df()
+# Update the data frame with the new value
+info <- input$data_table_cell_edit
+current_df() %>%
+mutate_at(info$col + 1, list(~ replace(., info$row + 1, info$value))) %>%
+DT::replaceData(., current_df())
+})
+# Handle undo button clicks
+observeEvent(input$undo_button, {
+if (length(undo_stack) > 1) {
+# Pop the last version of the data frame from the stack
+undo_stack <- undo_stack[-length(undo_stack)]
+# Set the current data frame to the previous version
+current_df(undo_stack[[length(undo_stack)]])
+}
+})
+}
+shinyApp(ui, server)
+library(shiny)
+library(reshape2)
+library(DT)
+library(tibble)
+###function for deleting the rows
+splitColumn <- function(data, column_name) {
+newColNames <- c("Unmerged_type1", "Unmerged_type2")
+newCols <- colsplit(data[[column_name]], " ", newColNames)
+after_merge <- cbind(data, newCols)
+after_merge[[column_name]] <- NULL
+after_merge
+}
+###_______________________________________________
+### function for inserting a new column
+fillvalues <- function(data, values, columName){
+df_fill <- data
+vec <- strsplit(values, ",")[[1]]
+df_fill <- tibble::add_column(df_fill, newcolumn = vec, .after = columName)
+df_fill
+}
+##function for removing the colum
+removecolumn <- function(df, nameofthecolumn){
+df[ , -which(names(df) %in% nameofthecolumn)]
+}
+### use a_splitme.csv for testing this program
+# UI ----------------------------------------------------------------------
+ui <- fluidPage(
+sidebarLayout(
+sidebarPanel(
+fileInput("file1", "Choose CSV File", accept = ".csv"),
+checkboxInput("header", "Header", TRUE),
+actionButton("Splitcolumn", "SplitColumn"),
+uiOutput("selectUI"),
+actionButton("deleteRows", "Delete Rows"),
+textInput("textbox", label="Input the value to replace:"),
+actionButton("replacevalues", label = 'Replace values'),
+actionButton("removecolumn", "Remove Column"),
+actionButton("Undo", 'Undo')
+),
+mainPanel(
+DTOutput("table1")
+)
+)
+)
+# SERVER ------------------------------------------------------------------
+server <- function(session, input, output) {
+rv <- reactiveValues(data = NULL, orig=NULL)
+observeEvent(input$file1, {
+file <- input$file1
+ext <- tools::file_ext(file$datapath)
+req(file)
+validate(need(ext == "csv", "Please upload a csv file"))
+rv$orig <- read.csv(file$datapath, header = input$header, )
+rv$data <- rv$orig
+})
+output$selectUI<-renderUI({
+req(rv$data)
+selectInput(inputId='selectcolumn', label='select column', choices = names(rv$data))
+})
+#splitcolumn
+observeEvent(input$Splitcolumn, {
+rv$data <- splitColumn(rv$data, input$selectcolumn)
+})
+#delterows
+observeEvent(input$deleteRows,{
+if (!is.null(input$table1_rows_selected)) {
+rv$data <- rv$data[-as.numeric(input$table1_rows_selected),]
+}
+})
+# renderDT ----------------------------------------------------------------
+output$table1 <- renderDT({
+datatable(rv$data, editable = TRUE)
+})
+observeEvent(input$table1_cell_edit, {
+row  <- input$table1_cell_edit$row
+clmn <- input$table1_cell_edit$col
+rv$data[row, clmn] <- input$table1_cell_edit$value
+})
+observeEvent(input$replacevalues, {
+rv$data <- fillvalues(rv$data, input$textbox, input$selectcolumn)
+})
+observeEvent(input$removecolumn, {
+rv$data <- removecolumn(rv$data,input$selectcolumn)
+})
+observeEvent(input$Undo, {
+rv$data <- rv$orig
+})
+}
+shinyApp(ui, server)
+library(shiny)
+library(DT)
+dat <- iris[1:3, ]
+ui <- fluidPage(
+downloadButton("downloadData", "Download"),
+DTOutput("table")
+)
+server <- function(input, output){
+output[["table"]] <- renderDT({
+datatable(dat, editable = "cell")
+})
+df <- reactiveVal(dat)
+observeEvent(input[["table_cell_edit"]], {
+cell <- input[["table_cell_edit"]]
+newdf <- df()
+newdf[cell$row, cell$col] <- cell$value
+df(newdf)
+})
+output[["downloadData"]] <- downloadHandler(
+filename = function() {
+"mydata.csv"
+},
+content = function(file) {
+write.csv(df(), file, row.names = FALSE)
+}
+)
+}
+shinyApp(ui, server)
+library(shiny)
+library(DT)
+dt_output = function(title, id) {
+fluidRow(column(
+12, h1(paste0('Table ', sub('.*?([0-9]+)$', '\\1', id), ': ', title)),
+hr(), DTOutput(id)
+))
+}
+render_dt = function(data, editable = 'cell', server = TRUE, ...) {
+renderDT(data, selection = 'none', server = server, editable = editable, ...)
+}
+shinyApp(
+ui = fluidPage(
+title = 'Double-click to edit table cells',
+dt_output('client-side processing (editable = "cell")', 'x1'),
+dt_output('client-side processing (editable = "row")', 'x2'),
+dt_output('client-side processing (editable = "column")', 'x3'),
+dt_output('client-side processing (editable = "all")', 'x4'),
+dt_output('server-side processing (editable = "cell")', 'x5'),
+dt_output('server-side processing (editable = "row")', 'x6'),
+dt_output('server-side processing (editable = "column")', 'x7'),
+dt_output('server-side processing (editable = "all")', 'x8'),
+dt_output('server-side processing (no row names)', 'x9'),
+dt_output('edit rows but disable certain columns (editable = list(target = "row", disable = list(columns = c(2, 4, 5))))', 'x10')
+),
+server = function(input, output, session) {
+d1 = iris
+d1$Date = Sys.time() + seq_len(nrow(d1))
+d10 = d9 = d8 = d7 = d6 = d5 = d4 = d3 = d2 = d1
+options(DT.options = list(pageLength = 5))
+# client-side processing
+output$x1 = render_dt(d1, 'cell', FALSE)
+output$x2 = render_dt(d2, 'row', FALSE)
+output$x3 = render_dt(d3, 'column', FALSE)
+output$x4 = render_dt(d4, 'all', FALSE)
+observe(str(input$x1_cell_edit))
+observe(str(input$x2_cell_edit))
+observe(str(input$x3_cell_edit))
+observe(str(input$x4_cell_edit))
+# server-side processing
+output$x5 = render_dt(d5, 'cell')
+output$x6 = render_dt(d6, 'row')
+output$x7 = render_dt(d7, 'column')
+output$x8 = render_dt(d8, 'all')
+output$x9 = render_dt(d9, 'cell', rownames = FALSE)
+output$x10 = render_dt(d10, list(target = 'row', disable = list(columns = c(2, 4, 5))))
+# edit a single cell
+proxy5 = dataTableProxy('x5')
+observeEvent(input$x5_cell_edit, {
+info = input$x5_cell_edit
+str(info)  # check what info looks like (a data frame of 3 columns)
+d5 <<- editData(d5, info)
+replaceData(proxy5, d5, resetPaging = FALSE)  # important
+# the above steps can be merged into a single editData() call; see examples below
+})
+# edit a row
+observeEvent(input$x6_cell_edit, {
+d6 <<- editData(d6, input$x6_cell_edit, 'x6')
+})
+# edit a column
+observeEvent(input$x7_cell_edit, {
+d7 <<- editData(d7, input$x7_cell_edit, 'x7')
+})
+# edit all cells
+observeEvent(input$x8_cell_edit, {
+d8 <<- editData(d8, input$x8_cell_edit, 'x8')
+})
+# when the table doesn't contain row names
+observeEvent(input$x9_cell_edit, {
+d9 <<- editData(d9, input$x9_cell_edit, 'x9', rownames = FALSE)
+})
+# edit rows but disable columns 2, 4, 5
+observeEvent(input$x10_cell_edit, {
+d10 <<- editData(d10, input$x10_cell_edit, 'x10')
+})
+}
+)
+library(shiny)
+library(DT)
+dt_output = function(title, id) {
+fluidRow(column(
+12, h1(paste0('Table ', sub('.*?([0-9]+)$', '\\1', id), ': ', title)),
+hr(), DTOutput(id)
+))
+}
+render_dt = function(data, editable = 'cell', server = TRUE, ...) {
+renderDT(data, selection = 'none', server = server, editable = editable, ...)
+}
+shinyApp(
+ui = fluidPage(
+title = 'Double-click to edit table cells',
+dt_output('client-side processing (editable = "cell")', 'x1'),
+dt_output('client-side processing (editable = "row")', 'x2'),
+dt_output('client-side processing (editable = "column")', 'x3'),
+dt_output('client-side processing (editable = "all")', 'x4'),
+dt_output('server-side processing (editable = "cell")', 'x5'),
+dt_output('server-side processing (editable = "row")', 'x6'),
+dt_output('server-side processing (editable = "column")', 'x7'),
+dt_output('server-side processing (editable = "all")', 'x8'),
+dt_output('server-side processing (no row names)', 'x9'),
+dt_output('edit rows but disable certain columns (editable = list(target = "row", disable = list(columns = c(2, 4, 5))))', 'x10')
+),
+server = function(input, output, session) {
+d1 = iris
+d1$Date = Sys.time() + seq_len(nrow(d1))
+d10 = d9 = d8 = d7 = d6 = d5 = d4 = d3 = d2 = d1
+options(DT.options = list(pageLength = 5))
+# client-side processing
+output$x1 = render_dt(d1, 'cell', FALSE)
+output$x2 = render_dt(d2, 'row', FALSE)
+output$x3 = render_dt(d3, 'column', FALSE)
+output$x4 = render_dt(d4, 'all', FALSE)
+observe(str(input$x1_cell_edit))
+observe(str(input$x2_cell_edit))
+observe(str(input$x3_cell_edit))
+observe(str(input$x4_cell_edit))
+# server-side processing
+output$x5 = render_dt(d5, 'cell')
+output$x6 = render_dt(d6, 'row')
+output$x7 = render_dt(d7, 'column')
+output$x8 = render_dt(d8, 'all')
+output$x9 = render_dt(d9, 'cell', rownames = FALSE)
+output$x10 = render_dt(d10, list(target = 'row', disable = list(columns = c(2, 4, 5))))
+# edit a single cell
+proxy5 = dataTableProxy('x5')
+observeEvent(input$x5_cell_edit, {
+info = input$x5_cell_edit
+str(info)  # check what info looks like (a data frame of 3 columns)
+d5 <<- editData(d5, info)
+replaceData(proxy5, d5, resetPaging = FALSE)  # important
+# the above steps can be merged into a single editData() call; see examples below
+})
+# edit a row
+observeEvent(input$x6_cell_edit, {
+d6 <<- editData(d6, input$x6_cell_edit, 'x6')
+})
+# edit a column
+observeEvent(input$x7_cell_edit, {
+d7 <<- editData(d7, input$x7_cell_edit, 'x7')
+})
+# edit all cells
+observeEvent(input$x8_cell_edit, {
+d8 <<- editData(d8, input$x8_cell_edit, 'x8')
+})
+# when the table doesn't contain row names
+observeEvent(input$x9_cell_edit, {
+d9 <<- editData(d9, input$x9_cell_edit, 'x9', rownames = FALSE)
+})
+# edit rows but disable columns 2, 4, 5
+observeEvent(input$x10_cell_edit, {
+d10 <<- editData(d10, input$x10_cell_edit, 'x10')
+})
+}
+)
+library(shiny)
+library(DT)
+library(RSQLite)
+library(pool)
+library(shinyjs)
+library(uuid)
+library(dplyr)
+#Create sql lite database
+pool <- dbPool(RSQLite::SQLite(), dbname = "db.sqlite")
+#Create sql lite df
+responses_df <- data.frame(row_id = character(),
+name = character(),
+sex = character(),
+age = character(),
+comment = character(),
+date = as.Date(character()),
+stringsAsFactors = FALSE)
+#Create responses table in sql database
+dbWriteTable(pool, "responses_df", responses_df, overwrite = FALSE, append = TRUE)
+#Label mandatory fields
+labelMandatory <- function(label) {
+tagList(
+label,
+span("*", class = "mandatory_star")
+)
+}
+appCSS <- ".mandatory_star { color: red; }"
+# ui
+ui <- fluidPage(
+shinyjs::useShinyjs(),
+shinyjs::inlineCSS(appCSS),
+fluidRow(
+actionButton("add_button", "Add", icon("plus")),
+actionButton("edit_button", "Edit", icon("edit")),
+actionButton("copy_button", "Copy", icon("copy")),
+actionButton("delete_button", "Delete", icon("trash-alt"))
+),
+br(),
+fluidRow(width="100%",
+dataTableOutput("responses_table", width = "100%")
+)
+)
+# Server
+server <- function(input, output, session) {
+#load responses_df and make reactive to inputs
+responses_df <- reactive({
+#make reactive to
+input$submit
+input$submit_edit
+input$copy_button
+input$delete_button
+dbReadTable(pool, "responses_df")
+})
+#List of mandatory fields for submission
+fieldsMandatory <- c("name", "sex")
+#define which input fields are mandatory
+observe({
+mandatoryFilled <-
+vapply(fieldsMandatory,
+function(x) {
+!is.null(input[[x]]) && input[[x]] != ""
+},
+logical(1))
+mandatoryFilled <- all(mandatoryFilled)
+shinyjs::toggleState(id = "submit", condition = mandatoryFilled)
+})
+#Form for data entry
+entry_form <- function(button_id){
+showModal(
+modalDialog(
+div(id=("entry_form"),
+tags$head(tags$style(".modal-dialog{ width:400px}")),
+tags$head(tags$style(HTML(".shiny-split-layout > div {overflow: visible}"))),
+fluidPage(
+fluidRow(
+splitLayout(
+cellWidths = c("250px", "100px"),
+cellArgs = list(style = "vertical-align: top"),
+textInput("name", labelMandatory("Name"), placeholder = ""),
+selectInput("sex", labelMandatory("Sex"), multiple = FALSE, choices = c("", "M", "F"))
+),
+sliderInput("age", "Age", 0, 100, 1, ticks = TRUE, width = "354px"),
+textAreaInput("comment", "Comment", placeholder = "", height = 100, width = "354px"),
+helpText(labelMandatory(""), paste("Mandatory field.")),
+actionButton(button_id, "Submit")
+),
+easyClose = TRUE
+)
+)
+)
+)
+}
+#
+fieldsAll <- c("name", "sex", "age", "comment")
+#save form data into data_frame format
+formData <- reactive({
+formData <- data.frame(row_id = UUIDgenerate(),
+name = input$name,
+sex = input$sex,
+age = input$age,
+comment = input$comment,
+date = as.character(format(Sys.Date(), format="%d-%m-%Y")),
+stringsAsFactors = FALSE)
+return(formData)
+})
+#Add data
+appendData <- function(data){
+quary <- sqlAppendTable(pool, "responses_df", data, row.names = FALSE)
+dbExecute(pool, quary)
+}
+observeEvent(input$add_button, priority = 20,{
+entry_form("submit")
+})
+observeEvent(input$submit, priority = 20,{
+appendData(formData())
+shinyjs::reset("entry_form")
+removeModal()
+})
+#delete data
+deleteData <- reactive({
+SQL_df <- dbReadTable(pool, "responses_df")
+row_selection <- SQL_df[input$responses_table_rows_selected, "row_id"]
+quary <- lapply(row_selection, function(nr){
+dbExecute(pool, sprintf('DELETE FROM "responses_df" WHERE "row_id" == ("%s")', nr))
+})
+})
+observeEvent(input$delete_button, priority = 20,{
+if(length(input$responses_table_rows_selected)>=1 ){
+deleteData()
+}
+showModal(
+if(length(input$responses_table_rows_selected) < 1 ){
+modalDialog(
+title = "Warning",
+paste("Please select row(s)." ),easyClose = TRUE
+)
+})
+})
+#copy data
+unique_id <- function(data){
+replicate(nrow(data), UUIDgenerate())
+}
+copyData <- reactive({
+SQL_df <- dbReadTable(pool, "responses_df")
+row_selection <- SQL_df[input$responses_table_rows_selected, "row_id"]
+SQL_df <- SQL_df %>% filter(row_id %in% row_selection)
+SQL_df$row_id <- unique_id(SQL_df)
+quary <- sqlAppendTable(pool, "responses_df", SQL_df, row.names = FALSE)
+dbExecute(pool, quary)
+})
+observeEvent(input$copy_button, priority = 20,{
+if(length(input$responses_table_rows_selected)>=1 ){
+copyData()
+}
+showModal(
+if(length(input$responses_table_rows_selected) < 1 ){
+modalDialog(
+title = "Warning",
+paste("Please select row(s)." ),easyClose = TRUE
+)
+})
+})
+#edit data
+observeEvent(input$edit_button, priority = 20,{
+SQL_df <- dbReadTable(pool, "responses_df")
+showModal(
+if(length(input$responses_table_rows_selected) > 1 ){
+modalDialog(
+title = "Warning",
+paste("Please select only one row." ),easyClose = TRUE)
+} else if(length(input$responses_table_rows_selected) < 1){
+modalDialog(
+title = "Warning",
+paste("Please select a row." ),easyClose = TRUE)
+})
+if(length(input$responses_table_rows_selected) == 1 ){
+entry_form("submit_edit")
+updateTextInput(session, "name", value = SQL_df[input$responses_table_rows_selected, "name"])
+updateSelectInput(session, "sex", selected = SQL_df[input$responses_table_rows_selected, "sex"])
+updateSliderInput(session, "age", value = SQL_df[input$responses_table_rows_selected, "age"])
+updateTextAreaInput(session, "comment", value = SQL_df[input$responses_table_rows_selected, "comment"])
+}
+})
+observeEvent(input$submit_edit, priority = 20, {
+SQL_df <- dbReadTable(pool, "responses_df")
+row_selection <- SQL_df[input$responses_table_row_last_clicked, "row_id"]
+dbExecute(pool, sprintf('UPDATE "responses_df" SET "name" = ?, "sex" = ?, "age" = ?,
+"comment" = ? WHERE "row_id" = ("%s")', row_selection),
+param = list(input$name,
+input$sex,
+input$age,
+input$comment))
+removeModal()
+})
+output$responses_table <- DT::renderDataTable({
+table <- responses_df() %>% select(-row_id)
+names(table) <- c("Date", "Name", "Sex", "Age", "Comment")
+table <- datatable(table,
+rownames = FALSE,
+options = list(searching = FALSE, lengthChange = FALSE)
+)
+})
+}
+# Run the application
+shinyApp(ui = ui, server = server)

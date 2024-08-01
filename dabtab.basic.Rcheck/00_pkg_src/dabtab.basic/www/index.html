@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Data Processing Pages</title>
+    <style>
+      /* Style for the container div */
+      #container {
+        white-space: nowrap;
+        overflow-x: scroll;
+        overflow-y: hidden;
+      }
+
+      /* Style for each page div */
+      .page {
+        display: inline-block;
+        width: 100vw;
+        height: 100vh;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Page 1 -->
+    <div id="container">
+      <div id="page1" class="page">
+        <h1>Welcome to Data Processing Pages</h1>
+        <p>This website is all about data processing.</p>
+        <button onclick="goToPage(2)">Go to Page 2</button>
+      </div>
+
+      <!-- Page 2 -->
+      <div id="page2" class="page">
+        <h1>Data Processing Images</h1>
+        <img src="image1.jpg" alt="Image 1">
+        <img src="image2.jpg" alt="Image 2">
+        <button onclick="goToPage(1)">Go to Page 1</button>
+        <button onclick="goToPage(3)">Go to Page 3</button>
+      </div>
+
+      <!-- Page 3 -->
+      <div id="page3" class="page">
+        <h1>Data Processing Text</h1>
+        <p>Here's some text about data processing...</p>
+        <button onclick="goToPage(2)">Go to Page 2</button>
+      </div>
+    </div>
+
+    <script>
+      // Function to switch pages
+      function goToPage(pageNumber) {
+        // Hide all pages
+        var pages = document.querySelectorAll('.page');
+        for (var i = 0; i < pages.length; i++) {
+          pages[i].style.display = 'none';
+        }
+
+        // Show the requested page
+        var requestedPage = document.querySelector('#page' + pageNumber);
+        requestedPage.style.display = 'inline-block';
+      }
+    </script>
+  </body>
+</html>

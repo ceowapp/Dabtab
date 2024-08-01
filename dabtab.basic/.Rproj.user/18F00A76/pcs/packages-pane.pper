@@ -1,0 +1,7 @@
+{
+    "installOptions": {
+        "installFromRepository": true,
+        "libraryPath": "C:/Users/DELL 7510/AppData/Local/R/cache/R/renv/library/dabtab.basic-d67c4186/R-4.1/x86_64-w64-mingw32",
+        "installDependencies": true
+    }
+}

@@ -1,0 +1,132 @@
+<p><img style="display: block; margin-left: auto; margin-right: auto;" src="radar.png" /></p>
+<h1 style="text-align: center;">Checklist for Data Manipulation&nbsp;<strong>RadaR</strong></h1>
+<h4 style="text-align: center;">Provide users a checklist for quick data manipulation (RadaR).</h4>
+<style>
+  label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  input[type="checkbox"] {
+    margin-left: 10px;
+  }
+</style>
+
+<label>
+  Data size:
+  <input type="checkbox" name="data_size" value="1">
+</label>
+
+<label>
+  Data range:
+  <input type="checkbox" name="data_range" value="1">
+</label>
+
+<label>
+  Data constraints:
+  <input type="checkbox" name="data_constraints" value="1">
+</label>
+
+<label>
+  Data consistency:
+  <input type="checkbox" name="data_consistency" value="1">
+</label>
+
+<label>
+  Data structure:
+  <input type="checkbox" name="data_structure" value="1">
+</label>
+
+<label>
+  Code validation:
+  <input type="checkbox" name="code_validation" value="1">
+</label>
+
+<label>
+  Mandatory (Filled/Blank):
+  <input type="checkbox" name="mandatory" value="1">
+</label>
+
+<label>
+  Unique (Duplicate):
+  <input type="checkbox" name="unique" value="1">
+</label>
+
+<label>
+  Pattern/Expression:
+  <input type="checkbox" name="pattern_expression" value="1">
+</label>
+
+<label>
+  Cross-field validation:
+  <input type="checkbox" name="cross_field_validation" value="1">
+</label>
+
+<label>
+  Primary-key:
+  <input type="checkbox" name="primary_key" value="1">
+</label>
+
+<label>
+  Foreign-key:
+  <input type="checkbox" name="foreign_key" value="1">
+</label>
+
+
+<label>
+  Foreign-key:
+  <input type="checkbox" name="Acurracy(value/typos/extra spaces or characters)" value="1">
+</label>
+
+
+
+<label>
+  Foreign-key:
+  <input type="checkbox" name="Completeness" value="1">
+</label>
+
+
+
+
+<label>
+  Foreign-key:
+  <input type="checkbox" name="Up-to-date" value="1">
+</label>
+
+<h2>Solutions</h2>
+<ul>
+  <li>Convert data type (SQL, R)</li>
+  <li>Wide format or long format</li>
+  <li>Check and fix if data is out of range</li>
+</ul>
+<ul>
+  <li>Search for nulls using conditional formatting and filters or using SQL to filter</li>
+  <li>Using Remove Duplicates function in excel or DISTINCT IN SQL</li>
+</ul>
+<blockquote>"If value is wrong, check if the data is biased or reliable<br>
+If misspellings, locate or the misspellings<br>
+If extra spaces, remove by using TRIM function"</blockquote>
+
+<h2>Warning/Common error</h2>
+<ul>
+  <li>Not cheking for spelling errors</li>
+  <li>Forgetting to document errors</li>
+  <li>Not checking for misfield values</li>
+  <li>Overlooking missing values</li>
+  <li>Looking at a subset of data not the whole picture</li>
+  <li>Losing track of the business objectives</li>
+  <li>Not fixing the source of the error</li>
+  <li>Not analyzing the system prior to data cleaning</li>
+  <li>Not backing up prior to data</li>
+  <li>Not accouting for data cleaning in your deadlines/process</li>
+</ul>
+
+<h2>Steps</h2>
+<ol>
+  <li>Ensure data</li>
+  <li>Identify issues in the data: Identify by going through the data/ Visualizing data to detect any irregularities</li>
+  <li>Define the scope of the cleaning process: Which fields or data points needed to be cleaned and create any plan for how to handle any issues</li>
+</ol>
+
+
+

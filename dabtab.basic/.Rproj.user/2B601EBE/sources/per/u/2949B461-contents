@@ -1,0 +1,91 @@
+library(shiny)
+library(dplyr)
+library(tidyr)
+library(echarts4r)
+library(shinyWidgets)
+
+
+
+
+
+
+countries_df <- read.csv("https://raw.githubusercontent.com/lukes/ISO-3166-Countries-with-Regional-Codes/master/all/all.csv", strip.white = TRUE)
+countries_df <- countries_df[c("name", "alpha.2")]
+countries_df$alpha.2 <- tolower(countries_df$alpha.2)
+
+countries_df <- countries_df[countries_df$name %in% countries2, ]
+
+img_urls <- paste0(
+  "https://cdn.rawgit.com/lipis/flag-icon-css/master/flags/4x3/",
+  countries_df$alpha.2, ".svg"
+)
+
+input_widget <- multiInput(
+  inputId = "country_select",
+  label = "Countries :",
+  choices = NULL,
+  selected = countries_df$name[1],
+  choiceNames = lapply(
+    seq_along(countries_df$alpha.2),
+    function(i) {
+      tagList(
+        tags$img(src = img_urls[i], width = 20, height = 15),
+        countries_df$name[i]
+      )
+    }
+  ),
+  choiceValues = countries_df$name
+)
+
+
+
+
+
+
+
+
+
+
+
+
+# Placeholder data
+
+# Define UI
+ui <- fluidPage(
+  titlePanel("Animated Line Chart"),
+  sidebarLayout(
+    sidebarPanel(
+      input_widget
+      
+    ),
+    mainPanel(
+      echarts4rOutput("trend")
+    )
+  )
+)
+
+# Define server
+server <- function(input, output) {
+  # Filter data based on selected countries
+  output$trend <- echarts4r::renderEcharts4r({
+    req(input$country_select)
+    msg <- paste0(tools::toTitleCase(input$country_select))
+    fopi %>% 
+      dplyr::mutate(year = as.character(year)) %>% 
+      dplyr::arrange(year) %>% 
+      dplyr::filter(country %in% input$country_select) %>% 
+      dplyr::group_by(country) %>% 
+      echarts4r::e_charts(year) %>% 
+      echarts4r::e_line(data) %>% 
+      echarts4r::e_tooltip(trigger = "axis") %>% 
+      echarts4r::e_y_axis(inverse = TRUE) %>% 
+      echarts4r::e_axis_labels("Years") %>% 
+      echarts4r::e_title(msg) %>% 
+      echarts4r::e_color(
+        c("#247BA0", "#FF1654", "#70C1B3", "#2f2f2f", "#F3FFBD", "#B2DBBF")
+      )
+  })
+}
+
+# Run the app
+shinyApp(ui = ui, server = server)

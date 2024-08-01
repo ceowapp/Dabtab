@@ -1,0 +1,63 @@
+library(shiny)
+
+ui <- fillPage(
+  tags$style(type = "text/css",
+             ".half-fill { flex-basis: 19%; height: 95%; margin: 5px; border: 1px solid black; }",
+             ".fill-row { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; }",
+             ".panel-image { height: 50%; background-size: cover; background-position: center; }",
+             ".panel-content { height: 50%; display: flex; flex-direction: column; justify-content: space-between; padding: 5px; }",
+             ".panel-title { font-size: 16px; font-weight: bold; }",
+             ".panel-text { font-size: 14px; }",
+             ".panel-button { width: 100%; margin-top: 5px; }"
+  ),
+  
+  fillRow(
+    class = "fill-row",
+    width = "100%", 
+    height = "50%",
+    tag$div(
+      class = "half-fill",
+      tag$div(
+        class = "panel-image",
+        style = "background-image: url(https://via.placeholder.com/300x150.png);"
+      ),
+      tag$div(
+        class = "panel-content",
+        tag$div(class = "panel-title", "Panel 1"),
+        tag$div(class = "panel-text", "This is some example text."),
+        actionButton(class = "panel-button", "Button 1")
+      )
+    ),
+    tag$div(id = "two", class = "half-fill",
+            "Left half"),
+    tag$div(id = "three", class = "half-fill",
+            "Left half"),
+    tag$div(id = "four", class = "half-fill",
+            "Left half"),
+    tag$div(id = "five", class = "half-fill",
+            "Left half")
+  ),
+  
+  fillRow(
+    class = "fill-row",
+    width = "100%", 
+    height = "50%",
+    tag$div(id = "six", class = "half-fill",
+            "Left half"),
+    tag$div(id = "seven", class = "half-fill",
+            "Left half"),
+    tag$div(id = "eight", class = "half-fill",
+            "Left half"),
+    tag$div(id = "nine", class = "half-fill",
+            "Left half"),
+    tag$div(id = "ten", class = "half-fill",
+            "Left half")
+  )
+)
+
+
+server <- function(input, output) {
+  # server code goes here
+}
+
+shinyApp(ui, server)

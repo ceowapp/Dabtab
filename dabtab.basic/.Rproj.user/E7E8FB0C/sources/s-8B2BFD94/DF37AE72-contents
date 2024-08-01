@@ -1,0 +1,18 @@
+# ui.R
+textInput.typeahead(
+  id="thti"
+  ,placeholder="type 'name' or '2'"
+  ,local=data.frame(name=c("name1","name2"),info=c("info1","info2"))
+  ,valueKey = "name"
+  ,tokens=c(1,2)
+  ,template = HTML("<p class='repo-language'>{{info}}</p> 
+<p class='repo-name'>{{name}}</p> 
+<p class='repo-description'>You need to learn more CSS to customize this further</p>")
+)
+
+# run the below and go to the typeahead tab
+if(interactive()) {
+  shinysky::run.shinysky.example()
+}
+
+

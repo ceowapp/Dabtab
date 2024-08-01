@@ -1,0 +1,5 @@
+my_data_1 <- readr::read_csv("C:/Users/DELL 7510/Music/full_grouped.csv") %>%
+  fix_names() %>%
+  to_fct()
+
+

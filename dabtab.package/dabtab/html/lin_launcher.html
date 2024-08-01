@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create a launcher and updater for Linux (.sh)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for lin_launcher {dabtab}"><tr><td>lin_launcher {dabtab}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Create a launcher and updater for Linux (.sh)</h2>
+
+<h3>Description</h3>
+
+<p>Create a launcher and updater for Linux (.sh)
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+lin_launcher(
+  app = c("dabtab", "dabtab.basic"),
+  port = 4444,
+  pdir = Sys.getenv("HOME")
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>app</code></td>
+<td>
+<p>App to run when the desktop icon is double-clicked (&quot;dabtab&quot;, &quot;dabtab.basic&quot;, etc.). Default is &quot;dabtab&quot;</p>
+</td></tr>
+<tr valign="top"><td><code>port</code></td>
+<td>
+<p>Port to use for shiny::runApp (e.g, port = 4444)</p>
+</td></tr>
+<tr valign="top"><td><code>pdir</code></td>
+<td>
+<p>Project directory to use. Default is Sys.getenv(&quot;HOME&quot;)</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>On Linux a file named 'dabtab.sh' and one named 'update_dabtab.sh' will be put on the desktop. Double-click the file to launch the specified dabtab app or update dabtab to the latest version
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+dabtab::lin_launcher("dabtab")
+
+## End(Not run)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>dabtab</em> version 1.1.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,26 @@
+{
+    "id": "D305AE2F",
+    "path": "~/R/win-library/4.1/dabtab_rs/dabtab.basic/R/server.R",
+    "project_path": "R/server.R",
+    "type": "r_source",
+    "hash": "1354838563",
+    "contents": "",
+    "dirty": false,
+    "created": 1681980854419.0,
+    "source_on_save": false,
+    "relative_order": 1,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "2613,0",
+        "scrollLine": "2710"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1683882082,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1683882082834,
+    "read_only": false,
+    "read_only_alternatives": []
+}

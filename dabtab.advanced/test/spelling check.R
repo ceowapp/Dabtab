@@ -1,0 +1,516 @@
+library(hunspell)
+library(stringr)
+library(shiny)
+library(htmltools)
+library(hunspell)
+library(dplyr)
+library(DT)
+library('shinyjs')
+library('plotly')
+library('dplyr')
+library('tidyr')
+library('ggplot2')
+library('shiny')
+library('shinydashboard')
+library('leaflet')
+library('shinyWidgets')
+library('bs4Dash')
+library('shinyjs')
+library('shinythemes')
+library(sodium)
+library(DT)
+library('thematic')
+library('bslib')
+library('ggthemes')
+library("shinycssloaders")
+library('tidyverse')
+library('rlang')
+library('import')
+library("shinyFiles")
+library(glue)
+library(dabtab)
+library("memoise")
+library(data.table)
+
+library(shiny)
+library(rgl)
+library(installr)
+
+
+
+
+df <- read.csv("C:/Users/DELL 7510/Music/test.csv")
+
+
+
+
+library(shiny)
+
+ui <- fluidPage(
+  selectInput("input_type", "Choose Input Type", choices = c("Select Input", "Text Input")),
+  conditionalPanel(
+    condition = "input.input_type == 'Select Input'",
+    selectInput("select_input", "Select Input", choices = c("Option 1", "Option 2"))
+  ),
+  conditionalPanel(
+    condition = "input.input_type == 'Text Input'",
+    textInput("text_input", "Text Input", value = "")
+  )
+)
+
+server <- function(input, output) {
+  observeEvent(input$input_type, {
+    if (input$input_type == "Select Input") {
+      disable("text_input")
+      enable("select_input")
+    } else {
+      disable("select_input")
+      enable("text_input")
+    }
+  })
+}
+
+shinyApp(ui, server)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+check_spelling <- function(df, col2) {
+  # Initialize variables
+  output_rows <- list()
+  row_counter <- 1
+
+  # Iterate over rows in the data frame
+  for(i in 1:nrow(df)){
+    row_words <- unlist(strsplit(as.character(df[i, col2]), " "))
+    new_row_words <- list()
+    has_error <- FALSE
+
+    # Iterate over words in the row
+    for(j in 1:length(row_words)){
+      word <- row_words[j]
+
+      # Check spelling of word
+      if(!hunspell_check(word)){
+        # Highlight misspelled word
+        new_row_words[j] <- paste0("<span style='background-color:yellow;'>", word, "</span>")
+        has_error <- TRUE
+      } else {
+        new_row_words[j] <- word
+      }
+    }
+
+    # If the row has spelling errors, add it to the output data frame
+    if(has_error){
+      output_rows[[row_counter]] <- data.frame(
+        text_highlighted = paste(new_row_words, collapse = " "),
+        mispelling_word = row_words[!hunspell_check(row_words)],
+        row_number = i,
+        position = which(!hunspell_check(row_words))
+      )
+      row_counter <- row_counter + 1
+    }
+  }
+
+  # Combine output rows into a single data frame
+  output_df <- do.call(rbind, output_rows)
+
+  return(output_df)
+}
+
+
+
+
+ui <- fluidPage(
+  useSweetAlert(),
+  actionButton("run_check","Check Spelling"),
+  actionButton("run_fix","Correct Typos"),
+  dataTableOutput("highlighted_table")
+)
+
+
+server <- function(input, output, session) {
+
+
+  dataModal <- function(failed = FALSE) {
+    fix_pop <- modalDialog(
+      title = "Choose Fix Options",
+      prettyRadioButtons(
+        inputId = "typo",
+        label = "Choose options:",
+        choices = c("Skip", "Fix manually", "Fix auto"),
+        icon = icon("check"),
+        selected = "Skip",
+        bigger = TRUE,
+        status = "info",
+        animation = "jelly"
+      )
+    )
+
+    if (failed) {
+      showModal(fix_pop)
+    } else {
+      fix_pop
+    }
+  }
+
+
+
+
+
+  fix_final <- modalDialog(
+    title = "Choose Fix Options",
+    dataTableOutput("table_review"),
+    dataTableOutput("table_review_1"),
+    footer = tagList(
+    actionButton("fix_accept", "Accept corrections"),
+    actionButton("cancel_fix", "Cancel")
+  ))
+
+
+
+
+  observeEvent(input$run_check, {
+    req(input$run_check)
+    # Call check_spelling function on sample dataframe
+    result <- check_spelling(df, "col2")
+
+    # Output highlighted dataframe
+    output$highlighted_table <- DT::renderDataTable({
+      DT::datatable(result, escape = FALSE, options = list(pageLength = 5))
+    })
+  })
+
+
+
+  rv <- reactiveValues(val = 1)
+
+  # Check spelling and get unique misspelled words
+  result <- check_spelling(df, "col2")
+  unique_words <- unique(result$mispelling_word)
+
+  # Initialize correction dataframe
+  correction_df <- data.frame(word = unique_words, corrected_word = "", stringsAsFactors = FALSE)
+
+  correction_df_1 <- data.frame(word = unique_words, corrected_word = "", stringsAsFactors = FALSE)
+
+  observeEvent(input$run_fix, {
+    req(input$run_fix)
+
+    dataModal(failed = TRUE)
+
+
+    # Initialize manual correction index and set fix options for first word
+    # Output current value
+    output$current_value <- renderText({
+      unique_words[rv$val]
+    })
+
+
+    output$current_value_1 <- renderText({
+      unique_words[rv$val]
+    })
+
+
+
+    observeEvent(input$fix_word,{
+      req(input$fix_word)
+      correction_df[rv$val, "corrected_word"] <<- input$fix_word
+
+    })
+
+
+    observeEvent(input$text_enter,{
+      req(input$text_enter)
+
+      correction_df_1[rv$val, "corrected_word"] <<- input$text_enter
+
+    })
+
+})
+
+
+
+
+
+
+
+
+
+    observeEvent(input$typo, {
+      req(input$typo)
+
+      if (input$typo == "Fix auto") {
+        showModal(
+          modalDialog(
+            title = "Choose Fix Options",
+            verbatimTextOutput("current_value_1"),
+
+            selectInput(
+              inputId = "fix_word",
+              label = "Choose corrected word",
+              choices = setNames(hunspell_suggest(unique_words[rv$val]), hunspell_suggest(unique_words[rv$val]))
+            ),
+            actionButton("move_next", "Next"),
+            actionButton("move_back", "Back")
+          )
+
+        )
+      } else if (input$typo == "Fix manually") {
+        showModal(modalDialog(
+          title = "Choose Fix Options",
+          verbatimTextOutput("current_value"),
+          textInput(
+            inputId = "text_enter",
+            label = "Please enter text",
+            placeholder = "Enter corrected word"
+          ),
+          actionButton("submit", "Submit"),
+          actionButton("move_next_1", "Next"),
+          actionButton("move_back_1", "Back")
+        ))
+      } else {
+        return()
+      }
+    })
+
+
+
+
+
+    # Update correction dataframe with current suggestion and move to next word
+    observeEvent(input$move_next, {
+      req(input$move_next)
+
+      if (rv$val < length(unique_words)) {
+        rv$val <- rv$val + 1
+
+        updateSelectInput(
+          inputId = "fix_word",
+          label = "Choose corrected word",
+          choices = setNames(hunspell_suggest(unique_words[rv$val]), hunspell_suggest(unique_words[rv$val]))
+        )
+
+        observeEvent(input$fix_word, {
+          correction_df[rv$val, "corrected_word"] <<- input$fix_word
+        })
+
+        output$current_value <- renderText({
+          unique_words[rv$val]
+        })
+      } else {
+        output$table_review <- DT::renderDataTable({
+          DT::datatable(correction_df, escape = FALSE, options = list(pageLength = 5))
+        })
+
+        showModal(fix_final)
+        rv$val<<-1
+
+
+      }
+    })
+
+
+
+
+
+
+    observeEvent(input$move_back, {
+      req(input$move_back)
+      if (rv$val > 1) {
+        rv$val <- rv$val - 1
+
+        updateSelectInput(
+          inputId = "fix_word",
+          label = "Choose corrected word",
+          choices = setNames(hunspell_suggest(unique_words[rv$val]), hunspell_suggest(unique_words[rv$val])))
+
+        observeEvent(input$fix_word, {
+          correction_df[rv$val, "corrected_word"] <<- input$fix_word
+        })
+
+        output$current_value <- renderText({
+          unique_words[rv$val]
+        })
+      }
+    })
+
+
+
+    observeEvent(input$move_next_1, {
+      req(input$move_next_1)
+
+      if (rv$val < length(unique_words)) {
+        rv$val <- rv$val + 1
+
+        observeEvent(input$submit, {
+          correction_df_1[rv$val, "corrected_word"] <<- input$text_enter
+        })
+
+        output$current_value <- renderText({
+          unique_words[rv$val]
+        })
+      } else {
+        output$table_review <- DT::renderDataTable({
+          DT::datatable(correction_df_1, escape = FALSE, options = list(pageLength = 5))
+        })
+
+        showModal(fix_final)
+        rv$val<-1
+
+      }
+    })
+
+
+
+
+
+
+    observeEvent(input$move_back_1, {
+      req(input$move_back_1)
+
+      if (rv$val > 1) {
+        rv$val <- rv$val - 1
+
+        observeEvent(input$submit, {
+          correction_df_1[rv$val, "corrected_word"] <<- input$text_enter
+        })
+
+        output$current_value <- renderText({
+          unique_words[rv$val]
+        })
+      }
+    })
+
+
+
+    observeEvent(input$cancel_fix, {
+      req(input$cancel_fix)
+
+      # reset reactive values
+      rv$val <- 1
+
+      # clear correction dataframes
+      correction_df$corrected_word <- ""
+      correction_df_1$corrected_word <- ""
+
+
+      # remove modal
+      removeModal()
+    })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    observeEvent(input$fix_accept,{
+      req(input$fix_accept)
+      df_copy <<- df  # assign df_copy to global environment
+
+      if (!is.na(correction_df$corrected_word[1])) {
+        for (i in 1:nrow(correction_df)) {
+          word <- correction_df$word[i]
+          corrected_word <- correction_df$corrected_word[i]
+          if (!is.na(corrected_word)) {
+            # Replace all instances of the word with the corrected word in the copy dataset
+            df_copy$col2 <- gsub(paste0("\\b", word, "\\b"), corrected_word, df_copy$col2, ignore.case = TRUE)
+            sendSweetAlert(
+              session = session,
+              title = "Success !!",
+              text = paste0("Successfully fixed typos."),
+              type = "success"
+            )
+          } else {
+            sendSweetAlert(
+              session = session,
+              title = "Error...",
+              text = "Error !",
+              type = "error"
+            )
+            return()
+          }
+        }
+
+        removeModal()
+      } else if (!is.na(correction_df_1$corrected_word[1])) {
+        for (i in 1:nrow(correction_df_1)) {
+          word <- correction_df_1[i, "word"]
+          corrected_word <- correction_df_1[i, "corrected_word"]
+          if (!is.na(corrected_word)) {
+            # Update the copy dataset with the corrected word
+            df_copy$col2[df_copy$col2 == word] <- corrected_word
+            sendSweetAlert(
+              session = session,
+              title = "Success !!",
+              text = paste0("Successfully fixed typos."),
+              type = "success"
+            )
+          } else {
+            sendSweetAlert(
+              session = session,
+              title = "Error...",
+              text = "Error !",
+              type = "error"
+            )
+            return()
+          }
+        }
+
+        removeModal()
+
+      } else {
+        return()
+      }
+      # clear correction dataframes
+      rv$val<-1
+      updatePrettyRadioButtons(session, inputId = "typo", selected = "Skip")
+
+      correction_df$corrected_word <- ""
+      correction_df_1$corrected_word <- ""
+    })
+
+
+
+
+
+}
+
+shinyApp(ui, server)
+
+
+
+
+
+
+
+

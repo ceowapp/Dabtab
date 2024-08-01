@@ -1,0 +1,25 @@
+{
+    "id": "9A220E2D",
+    "path": null,
+    "project_path": null,
+    "type": "r_code_browser",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1682305753519.0,
+    "source_on_save": false,
+    "relative_order": 26,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "context": ".GlobalEnv:::store"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 2459013922785816161,
+    "encoding": "",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1682305753519,
+    "read_only": false,
+    "read_only_alternatives": []
+}

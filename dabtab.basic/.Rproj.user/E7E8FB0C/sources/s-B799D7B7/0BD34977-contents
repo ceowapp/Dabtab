@@ -1,0 +1,37 @@
+library('plotly')
+library('dplyr')
+library('tidyr')
+library('ggplot2')
+library('ggplot')
+library('shiny')
+library('shinydashboard')
+library('leaflet')
+library('shinyWidgets')
+library('bs4Dash')
+library('shinyjs')
+library('shinythemes')
+library(sodium)
+library(DT)
+library('thematic')
+library('bslib')
+library('ggthemes')
+library("shinycssloaders")
+library('tidyverse')
+library('rlang')
+library('import')
+library("shinyFiles")
+library(glue)
+library(dabtab)
+library("memoise")
+library(data.table)
+
+
+df<-read.csv("C:/Users/DELL 7510/Music/202202-divvy-tripdata_v1.csv")
+
+
+df %>% group_by(member_casual) %>% 
+  ggplot(aes(x=member_casual, y=ride_duration_1)) +
+  geom_point(aes(color=factor(member_casual)), alpha=0.2, position="jitter") +
+  geom_boxplot(outlier.size=0, alpha=0.1) +
+  guides(colour=FALSE) +
+  ggtitle ("Box and Whisker Plot")

@@ -1,0 +1,512 @@
+library(shinyWidgets)
+ui <- fluidPage(
+fluidRow(
+column(
+width = 12,
+wellPanel(
+radioGroupButtons("my_buttons", selected = NULL, choices = c("Option 1", "Option 2", "Option 3"), inline = TRUE)
+)
+)
+),
+fluidRow(
+column(
+width = 12,
+verbatimTextOutput("selected_values")
+)
+)
+)
+server <- function(input, output) {
+selected_values <- eventReactive(input$my_buttons, {
+prev_values <- isolate(output$selected_values)
+if (is.null(prev_values)) {
+return(input$my_buttons)
+} else if (!(input$my_buttons %in% prev_values)) {
+return(c(prev_values, input$my_buttons))
+} else {
+return(prev_values)
+}
+})
+output$selected_values <- renderPrint({
+selected_values()
+})
+observe({
+updateradioGroupButtons(
+inputId = "my_buttons",
+selected = selected_values(),
+choices = c("Option 1", "Option 2", "Option 3"),
+inline = TRUE
+)
+})
+}
+shinyApp(ui = ui, server = server)
+library(shiny)
+library(shinyWidgets)
+ui <- fluidPage(
+fluidRow(
+column(
+width = 12,
+wellPanel(
+radioGroupButtons("my_buttons", selected = NULL, choices = c("Option 1", "Option 2", "Option 3"), inline = TRUE)
+)
+)
+),
+fluidRow(
+column(
+width = 12,
+verbatimTextOutput("selected_values")
+)
+)
+)
+server <- function(input, output) {
+selected_values <- eventReactive(input$my_buttons, {
+prev_values <- isolate(output$selected_values)
+if (is.null(prev_values)) {
+return(input$my_buttons)
+} else if (!(input$my_buttons %in% prev_values)) {
+return(c(prev_values, input$my_buttons))
+} else {
+return(prev_values)
+}
+})
+output$selected_values <- renderPrint({
+selected_values()
+})
+observe({
+updateradioGroupButtons(
+inputId = "my_buttons",
+selected = selected_values(),
+choices = c("Option 1", "Option 2", "Option 3"),
+inline = TRUE
+)
+})
+}
+shinyApp(ui = ui, server = server)
+library(shiny)
+library(shinyWidgets)
+ui <- fluidPage(
+fluidRow(
+column(
+width = 12,
+wellPanel(
+radioGroupButtons("my_buttons", selected = NULL, choices = c("Option 1", "Option 2", "Option 3"), inline = TRUE)
+)
+)
+),
+fluidRow(
+column(
+width = 12,
+verbatimTextOutput("selected_values")
+)
+)
+)
+server <- function(input, output) {
+selected_values <- eventReactive(input$my_buttons, {
+prev_values <- isolate(output$selected_values)
+if (is.null(prev_values)) {
+return(input$my_buttons)
+} else if (!(input$my_buttons %in% prev_values)) {
+return(c(prev_values, input$my_buttons))
+} else {
+return(prev_values)
+}
+})
+output$selected_values <- renderPrint({
+selected_values()
+})
+observe({
+updateradioGroupButtons(
+inputId = "my_buttons",
+selected = selected_values(),
+choices = c("Option 1", "Option 2", "Option 3"),
+inline = TRUE
+)
+})
+}
+shinyApp(ui = ui, server = server)
+runApp('R')
+runApp('R')
+runApp('R')
+library(shiny)
+library(data.table)
+library(shinyWidgets)
+ui <- fluidPage(
+radioGroupButtons(
+inputId = "uploadType",
+label = "Select upload type",
+choices = c("File", "Folder"),
+justified = TRUE,
+selected = "File"
+),
+conditionalPanel(
+condition = "input.uploadType == 'File'",
+fileInput("fileInput", "Upload file", accept = c(".csv", ".tsv"))
+),
+conditionalPanel(
+condition = "input.uploadType == 'Folder'",
+dirInput("dirInput", "Select folder")
+),
+verbatimTextOutput("output")
+)
+server <- function(input, output) {
+# Define reactiveValues object to store uploaded files
+uploaded_files <- reactiveValues(files = data.table())
+# Update reactiveValues object when file(s) are uploaded
+observeEvent(input$uploadType, {
+if (input$uploadType == "File") {
+uploaded_file <- input$fileInput
+if (!is.null(uploaded_file)) {
+uploaded_files$files <- rbind(uploaded_files$files, data.table(directory = "", filename = uploaded_file$name))
+}
+} else if (input$uploadType == "Folder") {
+uploaded_folder <- input$dirInput
+if (!is.null(uploaded_folder)) {
+files <- list.files(uploaded_folder$datapath)
+path_dir <- paste0(gsub("\\\\", "/", uploaded_folder$datapath), '/')
+if (length(files) > 0) {
+uploaded_files$files <- rbind(uploaded_files$files, data.table(directory = path_dir, filename = files))
+}
+}
+}
+})
+# Render output
+output$output <- renderPrint({
+uploaded_files$files
+})
+}
+shinyApp(ui, server)
+library(shiny)
+library(data.table)
+library(shinyWidgets)
+ui <- fluidPage(
+radioGroupButtons(
+inputId = "uploadType",
+label = "Select upload type",
+choices = c("File", "Folder"),
+justified = TRUE,
+selected = "File"
+),
+conditionalPanel(
+condition = "input.uploadType == 'File'",
+fileInput("fileInput", "Upload file", accept = c(".csv", ".tsv"))
+),
+conditionalPanel(
+condition = "input.uploadType == 'Folder'",
+dirInput("dirInput", "Select folder")
+),
+verbatimTextOutput("output")
+)
+server <- function(input, output) {
+# Define reactiveValues object to store uploaded files
+uploaded_files <- reactiveValues(files = data.table())
+# Update reactiveValues object when file(s) are uploaded
+observeEvent(input$uploadType, {
+if (input$uploadType == "File") {
+uploaded_file <- input$fileInput
+if (!is.null(uploaded_file)) {
+uploaded_files$files <- rbind(uploaded_files$files, data.table(directory = "", filename = uploaded_file$name))
+}
+} else if (input$uploadType == "Folder") {
+uploaded_folder <- input$dirInput
+if (!is.null(uploaded_folder)) {
+files <- list.files(uploaded_folder$datapath)
+path_dir <- paste0(gsub("\\\\", "/", uploaded_folder$datapath), '/')
+if (length(files) > 0) {
+uploaded_files$files <- rbind(uploaded_files$files, data.table(directory = path_dir, filename = files))
+}
+}
+}
+})
+# Render output
+output$output <- renderPrint({
+uploaded_files$files
+})
+}
+shinyApp(ui, server)
+library(shiny)
+library(data.table)
+library(shinyWidgets)
+ui <- fluidPage(
+radioGroupButtons(
+inputId = "uploadType",
+label = "Select upload type",
+choices = c("File", "Folder"),
+justified = TRUE,
+selected = "File"
+),
+conditionalPanel(
+condition = "input.uploadType == 'File'",
+fileInput("fileInput", "Upload file", accept = c(".csv", ".tsv"))
+),
+conditionalPanel(
+condition = "input.uploadType == 'Folder'",
+dirInput("dirInput", "Select folder")
+),
+verbatimTextOutput("output")
+)
+server <- function(input, output) {
+# Define reactiveValues object to store uploaded files
+uploaded_files <- reactiveValues(files = data.table())
+# Update reactiveValues object when file(s) are uploaded
+observeEvent(input$uploadType, {
+if (input$uploadType == "File") {
+uploaded_file <- input$fileInput
+if (!is.null(uploaded_file)) {
+uploaded_files$files <- rbind(uploaded_files$files, data.table(directory = "", filename = uploaded_file$name))
+}
+} else if (input$uploadType == "Folder") {
+uploaded_folder <- input$dirInput
+if (!is.null(uploaded_folder)) {
+files <- list.files(uploaded_folder$datapath)
+path_dir <- paste0(gsub("\\\\", "/", uploaded_folder$datapath), '/')
+if (length(files) > 0) {
+uploaded_files$files <- rbind(uploaded_files$files, data.table(directory = path_dir, filename = files))
+}
+}
+}
+})
+# Render output
+output$output <- renderPrint({
+uploaded_files$files
+})
+}
+shinyApp(ui, server)
+library(shiny)
+library(data.table)
+library(shinyWidgets)
+ui <- fluidPage(
+radioGroupButtons(
+inputId = "uploadType",
+label = "Select upload type",
+choices = c("File", "Folder"),
+justified = TRUE,
+selected = "File"
+),
+conditionalPanel(
+condition = "input.uploadType == 'File'",
+fileInput("fileInput", "Upload file", accept = c(".csv", ".tsv"))
+),
+conditionalPanel(
+condition = "input.uploadType == 'Folder'",
+dirInput("dirInput", "Select folder")
+),
+verbatimTextOutput("output")
+)
+server <- function(input, output) {
+# Define reactiveValues object to store uploaded files
+uploaded_files <- reactiveValues(files = data.table())
+# Update reactiveValues object when file(s) are uploaded
+observeEvent(input$uploadType, {
+if (input$uploadType == "File") {
+uploaded_file <- input$fileInput
+if (!is.null(uploaded_file)) {
+uploaded_files$files <- rbind(uploaded_files$files, data.table(directory = "", filename = uploaded_file$name))
+}
+} else if (input$uploadType == "Folder") {
+uploaded_folder <- input$dirInput
+if (!is.null(uploaded_folder)) {
+files <- list.files(uploaded_folder$datapath)
+path_dir <- paste0(gsub("\\\\", "/", uploaded_folder$datapath), '/')
+if (length(files) > 0) {
+uploaded_files$files <- rbind(uploaded_files$files, data.table(directory = path_dir, filename = files))
+}
+}
+}
+})
+# Render output
+output$output <- renderPrint({
+uploaded_files$files
+})
+}
+shinyApp(ui, server)
+library(shiny)
+library(data.table)
+library(shinyWidgets)
+ui <- fluidPage(
+radioGroupButtons(
+inputId = "uploadType",
+label = "Select upload type",
+choices = c("File", "Folder"),
+justified = TRUE,
+selected = "File"
+),
+conditionalPanel(
+condition = "input.uploadType == 'File'",
+fileInput("fileInput", "Upload file", accept = c(".csv", ".tsv"))
+),
+conditionalPanel(
+condition = "input.uploadType == 'Folder'",
+dirInput("dirInput", "Select folder")
+),
+verbatimTextOutput("output")
+)
+server <- function(input, output) {
+# Define reactiveValues object to store uploaded files
+uploaded_files <- reactiveValues(files = data.table())
+# Update reactiveValues object when file(s) are uploaded
+observeEvent(input$uploadType, {
+if (input$uploadType == "File") {
+uploaded_file <- input$fileInput
+if (!is.null(uploaded_file)) {
+uploaded_files$files <- rbind(uploaded_files$files, data.table(directory = "", filename = uploaded_file$name))
+}
+} else if (input$uploadType == "Folder") {
+uploaded_folder <- input$dirInput
+if (!is.null(uploaded_folder)) {
+files <- list.files(uploaded_folder$datapath)
+path_dir <- paste0(gsub("\\\\", "/", uploaded_folder$datapath), '/')
+if (length(files) > 0) {
+uploaded_files$files <- rbind(uploaded_files$files, data.table(directory = path_dir, filename = files))
+}
+}
+}
+})
+# Render output
+output$output <- renderPrint({
+uploaded_files$files
+})
+}
+shinyApp(ui, server)
+library(shiny)
+library(data.table)
+library(shinyWidgets)
+ui <- fluidPage(
+radioGroupButtons(
+inputId = "uploadType",
+label = "Select upload type",
+choices = c("File", "Folder"),
+justified = TRUE,
+selected = "File"
+),
+conditionalPanel(
+condition = "input.uploadType == 'File'",
+fileInput("fileInput", "Upload file", accept = c(".csv", ".tsv"))
+),
+conditionalPanel(
+condition = "input.uploadType == 'Folder'",
+dirInput("dirInput", "Select folder")
+),
+verbatimTextOutput("output")
+)
+server <- function(input, output) {
+# Define reactiveValues object to store uploaded files
+uploaded_files <- reactiveValues(files = data.table())
+# Update reactiveValues object when file(s) are uploaded
+observeEvent(input$uploadType, {
+if (input$uploadType == "File") {
+uploaded_file <- input$fileInput
+if (!is.null(uploaded_file)) {
+uploaded_files$files <- rbind(uploaded_files$files, data.table(directory = "", filename = uploaded_file$name))
+}
+} else if (input$uploadType == "Folder") {
+uploaded_folder <- input$dirInput
+if (!is.null(uploaded_folder)) {
+files <- list.files(uploaded_folder$datapath)
+path_dir <- paste0(gsub("\\\\", "/", uploaded_folder$datapath), '/')
+if (length(files) > 0) {
+uploaded_files$files <- rbind(uploaded_files$files, data.table(directory = path_dir, filename = files))
+}
+}
+}
+})
+# Render output
+output$output <- renderPrint({
+uploaded_files$files
+})
+}
+shinyApp(ui, server)
+library(shiny)
+library(data.table)
+library(shinyWidgets)
+ui <- fluidPage(
+radioGroupButtons(
+inputId = "uploadType",
+label = "Select upload type",
+choices = c("File", "Folder"),
+justified = TRUE,
+selected = "File"
+),
+conditionalPanel(
+condition = "input.uploadType == 'File'",
+fileInput("fileInput", "Upload file", accept = c(".csv", ".tsv"))
+),
+conditionalPanel(
+condition = "input.uploadType == 'Folder'",
+dirInput("dirInput", "Select folder")
+),
+verbatimTextOutput("output")
+)
+server <- function(input, output) {
+# Define reactiveValues object to store uploaded files
+uploaded_files <- reactiveValues(files = data.table())
+# Update reactiveValues object when file(s) are uploaded
+observeEvent(input$uploadType, {
+if (input$uploadType == "File") {
+uploaded_file <- input$fileInput
+if (!is.null(uploaded_file)) {
+uploaded_files$files <- rbind(uploaded_files$files, data.table(directory = "", filename = uploaded_file$name))
+}
+} else if (input$uploadType == "Folder") {
+uploaded_folder <- input$dirInput
+if (!is.null(uploaded_folder)) {
+files <- list.files(uploaded_folder$datapath)
+path_dir <- paste0(gsub("\\\\", "/", uploaded_folder$datapath), '/')
+if (length(files) > 0) {
+uploaded_files$files <- rbind(uploaded_files$files, data.table(directory = path_dir, filename = files))
+}
+}
+}
+})
+# Render output
+output$output <- renderPrint({
+uploaded_files$files
+})
+}
+shinyApp(ui, server)
+library(shiny)
+library(data.table)
+library(shinyWidgets)
+ui <- fluidPage(
+radioGroupButtons(
+inputId = "uploadType",
+label = "Select upload type",
+choices = c("File", "Folder"),
+justified = TRUE,
+selected = "File"
+),
+conditionalPanel(
+condition = "input.uploadType == 'File'",
+fileInput("fileInput", "Upload file", accept = c(".csv", ".tsv"))
+),
+conditionalPanel(
+condition = "input.uploadType == 'Folder'",
+dirInput("dirInput", "Select folder")
+),
+verbatimTextOutput("output")
+)
+server <- function(input, output) {
+# Define reactiveValues object to store uploaded files
+uploaded_files <- reactiveValues(files = data.table())
+# Update reactiveValues object when file(s) are uploaded
+observeEvent(input$uploadType, {
+if (input$uploadType == "File") {
+uploaded_file <- input$fileInput
+if (!is.null(uploaded_file)) {
+uploaded_files$files <- rbind(uploaded_files$files, data.table(directory = "", filename = uploaded_file$name))
+}
+} else if (input$uploadType == "Folder") {
+uploaded_folder <- input$dirInput
+if (!is.null(uploaded_folder)) {
+files <- list.files(uploaded_folder$datapath)
+path_dir <- paste0(gsub("\\\\", "/", uploaded_folder$datapath), '/')
+if (length(files) > 0) {
+uploaded_files$files <- rbind(uploaded_files$files, data.table(directory = path_dir, filename = files))
+}
+}
+}
+})
+# Render output
+output$output <- renderPrint({
+uploaded_files$files
+})
+}
+shinyApp(ui, server)

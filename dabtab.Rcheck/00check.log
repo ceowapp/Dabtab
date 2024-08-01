@@ -1,0 +1,27 @@
+* using log directory 'C:/Users/DELL 7510/Documents/R/win-library/4.1/dabtab_rs/dabtab.Rcheck'
+* using R version 4.1.2 (2021-11-01)
+* using platform: x86_64-w64-mingw32 (64-bit)
+* using session charset: ISO8859-1
+* checking for file 'dabtab/DESCRIPTION' ... OK
+* this is package 'dabtab' version '1.1.0'
+* package encoding: UTF-8
+* checking package namespace information ... OK
+* checking package dependencies ... ERROR
+Packages required but not available:
+  'tidyr', 'dplyr', 'tibble', 'broom', 'car', 'markdown', 'shiny',
+  'shinyAce', 'psych', 'DT', 'readr', 'readxl', 'writexl', 'scales',
+  'curl', 'rstudioapi', 'import', 'shinyFiles', 'randomizr',
+  'patchwork', 'png'
+
+Packages suggested but not available:
+  'dbplyr', 'DBI', 'RSQLite', 'RPostgres', 'webshot', 'testthat',
+  'pkgdown'
+
+The suggested packages are required for a complete check.
+Checking can be attempted without them by setting the environment
+variable _R_CHECK_FORCE_SUGGESTS_ to a false value.
+
+See section 'The DESCRIPTION file' in the 'Writing R Extensions'
+manual.
+* DONE
+Status: 1 ERROR

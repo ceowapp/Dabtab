@@ -1,0 +1,9 @@
+Name: Update dabtab
+Description: Update dabtab to the latest version
+Binding: dabtab.update
+Interactive: true
+
+Name: Sync packages
+Description: Update packages to shared version
+Binding: sync_packages
+Interactive: true

@@ -1,0 +1,27 @@
+{
+    "id": "ADD75F00",
+    "path": "~/R/win-library/4.1/dabtab_rs/dabtab.basic/inst/app/www/reports/dabtab_shiny_html.Rmd",
+    "project_path": "inst/app/www/reports/dabtab_shiny_html.Rmd",
+    "type": "r_markdown",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1698124214226.0,
+    "source_on_save": false,
+    "relative_order": 17,
+    "properties": {
+        "tempName": "Untitled2",
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "5,0",
+        "scrollLine": "0"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1698128840,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1698128840712,
+    "read_only": false,
+    "read_only_alternatives": []
+}

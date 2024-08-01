@@ -1,0 +1,117 @@
+text_to_num <- function(text) {
+
+  # create a mapping of words to their corresponding numeric values
+  num_map <- c("zero"=0, "one"=1, "two"=2, "three"=3, "four"=4, "five"=5, "six"=6, "seven"=7, "eight"=8, "nine"=9, "ten"=10,
+               "eleven"=11, "twelve"=12, "thirteen"=13, "fourteen"=14, "fifteen"=15, "sixteen"=16, "seventeen"=17, "eighteen"=18, "nineteen"=19,
+               "twenty"=20, "thirty"=30, "forty"=40, "fifty"=50, "sixty"=60, "seventy"=70, "eighty"=80, "ninety"=90)
+
+  # split the input text into words
+  words <- unlist(strsplit(text, " "))
+
+  # initialize variables
+  result <- 0
+  current_value <- 0
+  multiplier <- 1
+
+  # loop through each word and convert it to its numeric value
+  for (word in words) {
+    if (word %in% names(num_map)) {
+      current_value <- current_value + num_map[[word]]
+    } else if (word == "hundred") {
+      current_value <- current_value * 100
+    } else if (word == "thousand") {
+      result <- result + current_value * 1000
+      current_value <- 0
+    } else if (word == "million") {
+      result <- result + current_value * 1000000
+      current_value <- 0
+    } else if (word == "billion") {
+      result <- result + current_value * 1000000000
+      current_value <- 0
+    } else {
+      stop(paste("Invalid word:", word))
+    }
+  }
+
+  # add the remaining value to the result
+  result <- result + current_value
+
+  return(result)
+}
+
+
+
+f <- text_to_num("forty thousand three hundred forty two")
+print(f)
+
+
+
+
+
+
+
+num_to_text <- function(x) {
+  # define the number names for 0-19
+  names1 <- c("", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
+              "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen",
+              "seventeen", "eighteen", "nineteen")
+
+  # define the number names for 20-90 in multiples of ten
+  names2 <- c("", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety")
+
+  # define the suffixes for thousand, million, billion, and trillion
+  suffixes <- c("", "thousand", "million", "billion", "trillion")
+
+  # helper function to convert a three-digit number to text
+  three_digit_to_text <- function(num) {
+    x <- as.integer(num)
+    if (x < 20) {
+      return(names1[x + 1])
+    } else if (x < 100) {
+      return(paste(names2[floor(x / 10) + 1], names1[x %% 10 + 1], sep = " "))
+    } else {
+      return(paste(names1[floor(x / 100) + 1], "hundred", three_digit_to_text(x %% 100), sep = " "))
+    }
+  }
+
+  # handle negative numbers
+  if (x < 0) {
+    return(paste("negative", num_to_text(-x)))
+  }
+
+  # handle zero
+  if (x == 0) {
+    return("zero")
+  }
+
+  # break the number into groups of three digits
+  groups <- numeric()
+  while (x > 0) {
+    groups <- c(groups, x %% 1000)
+    x <- floor(x / 1000)
+  }
+
+  # convert each group to text
+  text <- character(length(groups))
+  for (i in seq_along(groups)) {
+    text[i] <- three_digit_to_text(groups[i])
+  }
+
+  # combine the text for each group with the appropriate suffix
+  combined_text <- character(length(groups))
+  for (i in seq_along(groups)) {
+    combined_text[i] <- paste(text[i], suffixes[i], sep = " ")
+  }
+
+  # join the groups together with "and"
+  result <- trimws(paste(rev(combined_text), collapse = " and "))
+
+  return(result)
+}
+
+
+
+t<-num_to_text(361142)
+
+
+print(t)

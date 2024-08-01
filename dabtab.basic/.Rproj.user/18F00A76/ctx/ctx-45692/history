@@ -1,0 +1,512 @@
+}
+as.data.frame(dataset, check.names = FALSE, stringsAsFactors = FALSE) %>%
+to_fct()
+},
+silent = TRUE
+)
+)
+}
+#' Save data to clipboard on Windows or macOS
+#'
+#' @details Save a data.frame or tibble to the clipboard on Windows or macOS
+#' @param dataset Dataset to save to clipboard
+#' @seealso See the \code{\link{load_clip}}
+#' @export
+save_clip <- function(dataset) {
+os_type <- Sys.info()["sysname"]
+if (os_type == "Windows") {
+write.table(dataset, "clipboard-10000", sep = "\t", row.names = FALSE)
+} else if (os_type == "Darwin") {
+write.table(dataset, file = pipe("pbcopy"), sep = "\t", row.names = FALSE)
+} else if (os_type == "Linux") {
+message("Saving data to clipboard is currently only supported on Windows and macOS.\nSave data to csv for use in a spreadsheet")
+}
+invisible()
+}
+#' Ensure column names are valid
+#'
+#' @details Remove symbols, trailing and leading spaces, and convert to valid R column names. Opinionated version of \code{\link{make.names}}
+#' @param x Data.frame or vector of (column) names
+#' @param lower Set letters to lower case (TRUE or FALSE)
+#' @examples
+#' fix_names(c(" var-name ", "$amount spent", "100"))
+#' @export
+fix_names <- function(x, lower = FALSE) {
+isdf <- is.data.frame(x)
+cn <- if (isdf) colnames(x) else x
+cn <- gsub("(^\\s+|\\s+$)", "", cn) %>%
+gsub("\\s+", "_", .) %>%
+gsub("[[:punct:]]", "_", .) %>%
+gsub("^[[:punct:]]", "", .) %>%
+make.names(unique = TRUE) %>%
+gsub("\\.{2,}", ".", .) %>%
+gsub("_{2,}", "_", .) %>%
+make.names(unique = TRUE) %>% ## used twice to make sure names are still unique
+(function(x) if (lower) tolower(x) else x)
+if (isdf) stats::setNames(x, cn) else cn
+}
+#' Generate code to read a file
+#' @details Return two datasets before and after removing outliners
+#' @param df Dataframe
+#' @param var Column
+#' @param z_thresh Z thresh value
+#' @examples
+#'   z_outliner(df, var="column A", z_thresh=2)
+#' @importFrom rstudioapi selectFile isAvailable
+#' @export
+z_outlier <- function(df, var, z_thresh) {
+if (is.numeric(df[[var]])) {
+df1 <- df %>%
+filter(!is.na(.data[[var]]) & .data[[var]] != "") %>%
+filter(!(abs((.data[[var]] - mean(.data[[var]])) / sd(.data[[var]])) >= z_thresh)) %>%
+select(var)
+df2 <- df[!rownames(df) %in% rownames(df1), ]
+return(list(df1 = df1, df2 = df2))
+} else {
+message <- paste("Error: Input variable '", var, "' is not numeric.")
+return(list(error = message))
+}
+}
+#This is for remove outliners based on IQR
+iqr_outlier <- function(df, var_name) {
+var <- df[[var_name]] # Extract the column from the dataframe
+q1 <- quantile(var, 0.25, na.rm = TRUE)
+q3 <- quantile(var, 0.75, na.rm = TRUE)
+iqr <- q3 - q1
+# Define a threshold for outliers based on the IQR
+iqr_thresh <- 1.5 * iqr
+# Select the data that is within the IQR range
+in_iqr <- var > (q1 - iqr_thresh) & var < (q3 + iqr_thresh)
+outliner <- df[in_iqr, ][, var_name, drop = FALSE]
+selected_data_1 <- df[in_iqr, ]
+return(list(df1=outliner, df2=selected_data_1))
+}
+#This is for remove outliners based on MAD
+mad_outlier <- function(df, var) {
+# Calculate median and MAD
+med <- median(var)
+mad <- median(abs(var - med))
+# Define a threshold for outliers based on MAD
+mad_thresh <- 3 * mad
+# Select the data that is outside of the threshold
+selected_data_1 <- df[abs(var - med) > mad_thresh]
+selected_data <- df[abs(var - med) > mad_thresh,]
+return(list(df1=selected_data_1, df2=selected_data))
+}
+#This is for remove outliners based on LOF
+lof_outlier <- function(df, var, k) {
+# Calculate LOF for each data point
+lof_scores <- lof(var, k)
+# Determine the threshold for outliers
+lof_thresh <- quantile(lof_scores, probs = c(0.95))
+# Select the data that has LOF scores above the threshold
+selected_data_1<-df[lof_scores > lof_thresh]
+selected_data <- df[lof_scores > lof_thresh,]
+return(list(df1=selected_data_1, df2=selected_data))
+}
+#' @details Return the box and whisker plot based on input
+#' @param df Data frame
+#' @param var1 Variable as x axis
+#' @param var2 Variable to plot against
+#' @examples
+#'   box_and_whisker_plot_1(data, "Column A", "Column B")
+#' @importFrom rstudioapi selectFile isAvailable
+#' @export
+box_and_whisker_plot_1<- function(df, var1, var2) {
+df %>% group_by(.data[[var1]]) %>%
+ggplot(aes(x=as.factor(.data[[var1]]), y=.data[[var2]])) +
+geom_point(aes(color=factor(.data[[var1]])), alpha=0.2, position="jitter") +
+geom_boxplot(outlier.size=0, alpha=0.1) +
+guides(colour=FALSE) +
+ggtitle ("Box and Whisker Plot")
+}
+scatter_plot <- function(df, var1, var2) {
+ggplot(df, aes(x=.data[[var1]], y=.data[[var2]])) +
+geom_point() +
+ggtitle("Scatter Plot with Regression Lines") +
+geom_smooth(method = "lm", se = FALSE) + # add linear regression line
+geom_smooth(method = "loess", se = FALSE) # add LOESS line
+}
+histogram_plot <- function(df, var) {
+ggplot(df, aes(x=.data[[var]])) +
+geom_histogram(bins = 30, color="white", fill="cornflowerblue") +
+ggtitle("Histogram of " ~ var) +
+xlab(var) +
+ylab("Frequency")
+}
+means_plot <- function(df, var1, var2, var3) {
+# create bar plot
+bp <- barplot(df, horiz = FALSE, beside = TRUE, col = c("red", "green", "blue"),
+main = "Comparison of Means", ylab = "Mean Values",
+legend.text = c("Arithmetic", "Harmonic", "Geometric"),
+names.arg = rownames(df), ylim = c(0, 1.5 * max(df)))
+# add the legend outside the plot area
+par(xpd = TRUE) # allow plotting outside the plot area
+legend("topright", inset = c(-0.3, 0), legend = c("Arithmetic", "Harmonic", "Geometric"),
+fill = c("red", "green", "blue"), box.lty = 0, bty = "n", orientation = "vertical")
+par(xpd = FALSE) # reset plotting to inside the plot area
+# add mean values above the bars
+text(x = bp[, 1], y = round(var1, 2) + 0.05 * max(df),
+labels = formatC(round(var1, 2), digits = 2), pos = 3, cex = 0.8, col = "black")
+text(x = bp[, 2], y = round(var2, 2) + 0.05 * max(df),
+labels = formatC(round(var2, 2), digits = 2), pos = 3, cex = 0.8, col = "black")
+text(x = bp[, 3], y = round(var3, 2) + 0.05 * max(df),
+labels = formatC(round(var3, 2), digits = 2), pos = 3, cex = 0.8, col = "black")
+}
+density_plot <- function(df, var1, var2) {
+ggplot(df, aes(x=.data[[var2]], fill=.data[[var1]])) +
+geom_density(alpha=.5) +
+ggtitle("Density Plot") +
+scale_fill_brewer(palette = "Set1") # set custom fill colors with a palette
+}
+check_spelling <- function(df, var) {
+# Initialize variables
+output_rows <- list()
+row_counter <- 1
+# Iterate over rows in the data frame
+for(i in 1:nrow(df)){
+row_words <- unlist(strsplit(as.character(df[i, var]), " "))
+new_row_words <- list()
+has_error <- FALSE
+# Iterate over words in the row
+for(j in 1:length(row_words)){
+word <- row_words[j]
+# Check spelling of word
+if(!hunspell_check(word)){
+# Highlight misspelled word
+new_row_words[j] <- paste0("<span style='background-color:yellow;'>", word, "</span>")
+has_error <- TRUE
+} else {
+new_row_words[j] <- word
+}
+}
+# If the row has spelling errors, add it to the output data frame
+if(has_error){
+output_rows[[row_counter]] <- data.frame(
+text_highlighted = paste(new_row_words, collapse = " "),
+mispelling_word = row_words[!hunspell_check(row_words)],
+row_number = i,
+position = which(!hunspell_check(row_words))
+)
+row_counter <- row_counter + 1
+}
+}
+# Combine output rows into a single data frame
+output_df <- do.call(rbind, output_rows)
+return(output_df)
+}
+text_to_num <- function(data, col_name) {
+# create a mapping of words to their corresponding numeric values
+num_map <- c("zero"=0, "one"=1, "two"=2, "three"=3, "four"=4, "five"=5, "six"=6, "seven"=7, "eight"=8, "nine"=9, "ten"=10,
+"eleven"=11, "twelve"=12, "thirteen"=13, "fourteen"=14, "fifteen"=15, "sixteen"=16, "seventeen"=17, "eighteen"=18, "nineteen"=19,
+"twenty"=20, "thirty"=30, "forty"=40, "fifty"=50, "sixty"=60, "seventy"=70, "eighty"=80, "ninety"=90)
+# initialize variables
+converted <- 0
+invalid <- 0
+data$text_to_num <- rep(NA, nrow(data))
+# loop through each row of the dataframe
+for (i in 1:nrow(data)) {
+text <- data[[col_name]][i]
+if (!is.na(text)) {
+# split the input text into words
+words <- unlist(strsplit(text, " "))
+# initialize variables
+result <- 0
+current_value <- 0
+multiplier <- 1
+# loop through each word and convert it to its numeric value
+for (word in words) {
+if (word %in% names(num_map)) {
+current_value <- current_value + num_map[[word]]
+} else if (word == "hundred") {
+current_value <- current_value * 100
+} else if (word == "thousand") {
+result <- result + current_value * 1000
+current_value <- 0
+} else if (word == "million") {
+result <- result + current_value * 1000000
+current_value <- 0
+} else if (word == "billion") {
+result <- result + current_value * 1000000000
+current_value <- 0
+} else if (word == "and") {
+# do nothing
+} else {
+# word is not a valid number
+invalid <- invalid + 1
+break
+}
+}
+if (current_value > 0) {
+result <- result + current_value
+}
+if (invalid == 0) {
+# update the dataframe with the converted value
+data$text_to_num[i] <- result
+converted <- converted + 1
+} else {
+# add a new column to store the original text
+data$text_to_num[i] <- text
+}
+# reset the invalid counter
+invalid <- 0
+}
+}
+# print the results
+cat("Converted", converted, "rows.\n")
+cat("Could not convert", invalid, "rows.\n")
+return(list(data=data,converted=converted, invalid=invalid))
+}
+num_to_text <- function(df, col) {
+# define the number names for 0-19
+names1 <- c("", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
+"ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen",
+"seventeen", "eighteen", "nineteen")
+# define the number names for 20-90 in multiples of ten
+names2 <- c("", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety")
+# define the suffixes for thousand, million, billion, and trillion
+suffixes <- c("", "thousand", "million", "billion", "trillion")
+# helper function to convert a three-digit number to text
+three_digit_to_text <- function(num) {
+x <- as.integer(num)
+if (x < 20) {
+return(names1[x + 1])
+} else if (x < 100) {
+return(paste(names2[floor(x / 10) + 1], names1[x %% 10 + 1], sep = " "))
+} else {
+return(paste(names1[floor(x / 100) + 1], "hundred", three_digit_to_text(x %% 100), sep = " "))
+}
+}
+# create new columns for the converted text and invalid inputs
+df$num_to_text <- ""
+df$invalid_input <- ""
+# initialize counters for the number of converted and invalid rows
+num_converted <- 0
+num_invalid <- 0
+# loop through each row of the dataframe and convert the number to text
+for (i in 1:nrow(df)) {
+# check if the input is a valid number
+if (!is.numeric(df[[col]][i]) || is.na(df[[col]][i])) {
+# mark the row as invalid and increment the counter
+df$invalid_input[i] <- ifelse(!is.numeric(df[[col]][i]) || is.na(df[[col]][i]), "invalid", "")
+num_invalid <- num_invalid + 1
+} else {
+# convert the number to text and mark the row as converted
+df$num_to_text[i] <- three_digit_to_text(df[[col]][i])
+num_converted <- num_converted + 1
+}
+}
+# return a message indicating the number of rows converted and the number of rows that could not be converted
+if (num_invalid > 0) {
+invalid_rows_msg <- paste(num_invalid, "rows could not be converted. These rows will be kept with their original values.")
+} else {
+invalid_rows_msg <- ""
+}
+message(paste(num_converted, "rows were successfully converted.", invalid_rows_msg))
+return(list(df=df,num_converted=num_converted, num_invalid=num_invalid))
+}
+render_custom_datatable <- function(df) {
+# set options based on number of rows and columns
+num_rows <- nrow(df)
+num_cols <- ncol(df)
+if (num_rows > 1000 || num_cols > 20) {
+# if there are more than 1000 rows or 20 columns, enable pagination
+dataTabel <- DT::datatable(df,
+options = list(
+lengthMenu = list(c(5, 15, 20), c('5', '15', '20')),
+pageLength = 10,
+initComplete = JS(
+"function(settings, json) {",
+"$(this.api().table().header()).css({'background-color': 'moccasin', 'color': '1c1b1b'});",
+"$(this).parent().addClass('d-flex flex-row-reverse align-items-center justify-content-between');",
+"$(this).parent().siblings('.dataTables_info').addClass('mt-3 mr-auto');",
+"}"),
+columnDefs = list(list(className = 'dt-center', targets = '_all')),
+dom = '<"d-flex flex-row justify-content-between align-items-center"<"mr-2"l><"flex-grow-1 text-right"p>><"table-responsive"t><"d-flex flex-row justify-content-between align-items-center mt-3"i>',
+info = TRUE
+),
+filter = "top",
+selection = 'multiple',
+style = 'bootstrap',
+class = 'cell-border stripe',
+rownames = FALSE,
+width = "100%"
+)
+} else {
+# if there are fewer than 1000 rows and 20 columns, disable pagination
+dataTabel <- DT::datatable(
+df,
+options = list(
+paging = FALSE,
+searching = FALSE,
+ordering = FALSE,
+initComplete = JS(
+"function(settings, json) {",
+"$(this.api().table().header()).css({'background-color': 'moccasin', 'color': '1c1b1b'});",
+"$(this).parent().addClass('d-flex flex-row-reverse align-items-center justify-content-between');",
+"$(this).parent().siblings('.dataTables_info').addClass('mt-3 mr-auto');",
+"}"
+),
+columnDefs = list(
+list(className = 'dt-center', targets = "_all")
+),
+dom = '<"d-flex flex-row justify-content-between align-items-center"<"mr-2"l><"dt-pagination-wrapper flex-grow-1"p>><"table-responsive"t><"d-flex flex-row justify-content-between align-items-center mt-3"i>',
+info = TRUE
+),
+filter = "top",
+selection = 'multiple',
+style = 'bootstrap',
+class = 'cell-border stripe',
+rownames = FALSE,
+width = "100%"
+)
+}
+# render the datatable
+return(dataTabel)
+}
+render_custom_datatable_1 <- function(df) {
+dataTabel <- DT::datatable(
+df,
+options = list(
+lengthMenu = list(c(5, 15, 20), c('5', '15', '20')),
+pageLength = 10,
+initComplete = JS(
+"function(settings, json) {",
+"$(this.api().table().header()).css({'background-color': 'moccasin', 'color': '1c1b1b'});",
+"$(this).parent().addClass('d-flex flex-row-reverse align-items-center justify-content-between');",
+"$(this).parent().siblings('.dataTables_info').addClass('mt-3 mr-auto');",
+"}"),
+columnDefs = list(list(className = 'dt-center', targets = '_all')),
+dom = '<"d-flex flex-row justify-content-between align-items-center"<"mr-2"l><"flex-grow-1 text-right"p>><"table-responsive"t><"d-flex flex-row justify-content-between align-items-center mt-3"i>',
+info = TRUE
+),
+filter = "top",
+selection = 'multiple',
+style = 'bootstrap',
+class = 'cell-border stripe',
+rownames = FALSE,
+width = "100%"
+)
+return(dataTabel)
+}
+filtered_df <- function (data, col_name, search_term, rows){
+# Create a reactive dataframe
+df <- reactive({
+if (col_name == "Whole dataset") {
+data[rows[1]:rows[2], , drop = FALSE]
+} else {
+data[rows[1]:rows[2], col_name, drop = FALSE]
+}
+})
+# Filter the dataframe based on the input expression
+filtered_df <- reactive({
+if (grepl("above value", search_term)) {
+value <- as.numeric(regmatches(search_term, regexpr("\\d+", search_term))[1])
+if (!is.na(value)) {
+df() %>%
+filter_if(is.numeric, ~ . > value)
+}
+} else if (grepl("below value", search_term)) {
+if (grepl("below value", search_term)) {
+value <- as.numeric(regmatches(search_term, regexpr("\\d+", search_term))[1])
+if (!is.na(value)) {
+df() %>%
+filter_if(is.numeric, ~ . < value)
+}
+}
+} else if (grepl("between", search_term)) {
+x <- as.numeric(gsub("between ", "", gsub(" and .*", "", search_term)))
+y <- as.numeric(gsub(".* and ", "", search_term))
+df() %>%
+filter_if(is.numeric, ~ .>= x & . <= y)
+} else if (grepl("equal to", search_term)) {
+value <- as.numeric(gsub("equal to ", "", search_term))
+df() %>%
+filter_if(is.numeric, ~ . == value, all_vars(.))
+} else if (grepl("contain value", search_term)) {
+value <- as.character(gsub("contain value ", "", search_term))
+df() %>% filter_all(~ grepl(value, .))
+} else if (grepl("duplicate value", search_term)) {
+df() %>% filter(duplicated(.))
+} else if (grepl("unique value", search_term)) {
+df() %>% filter(!duplicated(.))
+} else if (grepl("lowest value", search_term)) {
+df() %>% slice_min(.,n = 1)
+} else if (grepl("highest value", search_term)) {
+df() %>% slice_max(., n = 1)
+} else if (grepl("above average", search_term)) {
+avg <- df() %>% summarise(across(everything(), mean))
+df() %>% filter_all(~ . > avg)
+} else if (grepl("below average", search_term)) {
+avg <- df() %>% summarise(across(everything(), mean))
+df() %>% filter_all(~ . < avg)
+} else if (grepl("top", search_term)) {
+value <- as.numeric(gsub("top ", "", gsub("% value", "", search_term)))
+n <- ceiling(value / 100 * nrow(df()))
+df() %>% arrange_all() %>% slice_tail(n)
+} else if (grepl("bottom", search_term)) {
+value <- as.numeric(gsub("bottom ", "", gsub("% value", "", search_term)))
+n <- ceiling(value / 100 * nrow(df()))
+df() %>% arrange_all() %>% slice_head(n)
+}else if (grepl("missing value", search_term)) {
+df() %>% filter_all(~ !is.na(.) & . != "")
+}else if (grepl("find", search_term)) {
+value <- as.character(gsub("find", "", search_term))
+if (value == "char") {
+df()[, sapply(df(), is.character)]
+} else if (value == "num") {
+df()[, sapply(df(), is.numeric)]
+} else if (value == "log") {
+df()[, sapply(df(), is.logical)]
+} else {
+# handle invalid input here
+# e.g., print an error message or return the original dataframe
+print("Invalid input!")
+df()
+}
+} else {
+df()
+}
+})
+return(filtered_df())
+}
+### function for inserting a new column
+fillvalues <- function(data, values, columName){
+df_fill <- data
+vec <- strsplit(values, ",")[[1]]
+df_fill <- tibble::add_column(df_fill, newcolumn = vec, .after = columName)
+df_fill
+}
+material_card <- function(..., header = NULL, bgcolor = "white") {
+div(
+class = "card",
+header,
+div(class = "card-content", ..., style = sprintf("background-color: %s", bgcolor))
+)
+}
+#This is for calculate variables with defined functions
+caculate <- function(df, arg, arg2) {
+df_subset <- reactive({
+if (arg2 == "Whole dataset") {
+df[, drop = FALSE]
+} else {
+df[arg2, drop = FALSE]
+}
+})
+result <- reactive({
+if (!is.null(df_subset())) {
+sum_val <- if ("sum" %in% arg) sum(df_subset()) else NA
+geo_mean <- if ("geometric mean" %in% arg) geometric.mean(df_subset()) else NA
+harm_mean <- if ("harmonic mean" %in% arg) harmonic.mean(df_subset()) else NA
+cov_val <- if ("covariance" %in% arg) cov(df_subset()) else NA
+sd_val <- if ("standard deviation" %in% arg) sd(df_subset()) else NA
+arith_mean <- if ("arithmetic mean" %in% arg) mean(df_subset()) else NA
+results <- data.frame(
+Function = arg,
+Value = c(sum_val, geo_mean, harm_mean, cov_val, sd_val, arith_mean)
+)
+return(results)
+}
+})
+return(result)
+}

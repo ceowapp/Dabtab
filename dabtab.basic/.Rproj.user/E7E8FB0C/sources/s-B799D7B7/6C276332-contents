@@ -1,0 +1,488 @@
+library('plotly')
+library('dplyr')
+library('tidyr')
+library('ggplot2')
+library('shiny')
+library('shinydashboard')
+library('leaflet')
+library('shinyWidgets')
+library('bs4Dash')
+library('shinyjs')
+library('shinythemes')
+library(sodium)
+library(DT)
+library('thematic')
+library('bslib')
+library('ggthemes')
+library("shinycssloaders")
+library('tidyverse')
+library('rlang')
+library(collapsibleTree)
+
+
+source('theme_modifier.R')
+
+filename <<- list.files(path = "C:/Users/DELL 7510/Documents/R/win-library/4.1/dabtab_rs/dabtab.basic/data")
+
+
+button_color_css <- "
+#datasets, #map_datasets{
+/* Change the background color of the update button
+to blue. */
+background: DodgerBlue;
+/* Change the text size to 15 pixels. */
+font-size: 15px;
+}"
+
+my_class <- "
+.my-class {
+background-color: #f2f2f2;
+border: 1px solid #ddd;
+padding: 10px;
+}
+"
+
+
+
+
+
+
+
+
+advancedUI <- navbarPage("Dynamic Application",
+                         position = c("static-top"),
+                         useShinyjs(),
+                         tabPanel(
+                           "Data Analysis", icon = icon("home"),
+                           id="tab_a",
+                           conditionalPanel("input.tabs_data == 'tab1'", uiOutput("ui_Manage")),
+
+                           fluidPage(
+                             fluidRow(
+                               column(width=3,
+                               conditionalPanel("input.tabs_data == 'Preparing Data'", uiOutput("ui_prepare")),
+                               conditionalPanel("input.tabs_data == 'Data Manipulation'", uiOutput("ui_manipulate"))),
+                                column(width=9,
+                                    tabsetPanel(
+                                      id="tabs_data",
+                                      type = "tab",
+                                      selected = NULL,
+
+                                   tabPanel("Preparing Data",
+                                            id = "tab1",
+                                            titlePanel("Preparing Data"),
+                                            shinyjs::hidden(fluidRow(
+                                              id = "myrow1",
+                                              style = "background-color: lightblue; font-weight: bold; padding-left: 10px; white-space: normal;",
+                                              column(
+                                                width = 9,
+                                                h4("Dataset Description"),
+                                                textOutput("descr_1")
+                                              )
+                                            ))
+                                              ,
+
+                                            fluidRow(
+                                              column(
+                                                4,
+                                                introBox(
+
+                                                textInput(
+                                                  "search_input_1",
+                                                  "Search:",
+                                                  value = "",
+                                                  placeholder = "Enter search key"
+                                                ),
+                                                data.step = 2,
+                                                data.intro = "This is the button",
+                                                data.hint = "Here is clue"
+                                                )
+                                              ),
+                                              column(
+                                                4,
+                                                sliderInput(
+                                                  inputId = "Data Range",
+                                                  label = "Select Data Range:",
+                                                  min = 1,
+                                                  max = 3500,
+                                                  value = c(1, 250)
+                                                )
+                                              ),
+                                              column(4,
+                                                     radioGroupButtons(
+                                                       inputId = "viz_description",
+                                                       label = "Description Showcase",
+                                                       choices = c("Show Top", "Show Bottom", "Hide"),
+                                                       status = "primary",
+                                                       selected="Show Top"
+                                                     )
+
+                                              ))
+                                            ,
+                                            br(),
+                                            introBox(
+
+                                            dataTableOutput("table"),
+                                            data.step = 1,
+                                            data.intro = "This is the table"
+                                            ),
+                                            br(),
+                                            br(),
+                                            br(),
+                                   shinyjs::hidden(fluidRow(
+                                              id = "myrow2",
+                                              style = "background-color: lightblue; font-weight: bold; padding-left: 10px; white-space: normal;",
+                                              column(
+                                                width = 9,
+                                                h4("Dataset Description"),
+                                                textOutput("descr_2")
+                                              )
+                                            ))),
+
+
+
+                                   tabPanel("Data Manipulation", fluid = TRUE,
+                                            id = 'tab20',
+                                            titlePanel("Data Manipulation for Processing"),
+
+
+                                            fluidRow(
+                                              column(
+                                                4,
+                                                radioGroupButtons(
+                                                  inputId = "viz_data",
+                                                  label = "Dataset Showcase",
+                                                  choices = c("Show All", "Show Isolate", "Show Multiples"),
+                                                  status = "primary",
+                                                  selected="Show All"
+                                                ),
+                                                    div(id = "dropdown_menu_7",
+                                                        style = "display: none;",
+                                                    uiOutput("multi_select"))
+
+                                              ),
+
+                                              column(
+                                                4,
+                                                checkboxGroupButtons(
+                                                  inputId = "Id057",
+                                                  label = "Choose a graph :",
+                                                  choices = c(`<i class='fa fa-bar-chart'></i>` = "bar", `<i class='fa fa-line-chart'></i>` = "line",
+                                                              `<i class='fa fa-pie-chart'></i>` = "pie"),
+                                                  justified = TRUE
+                                                )
+                                              )
+
+                                              ,
+
+                                              column(
+                                                4,
+
+                                                uiOutput("slider")
+                                              )
+
+                                              ),
+                                            fluidRow(
+
+
+                                              uiOutput("my_output")
+
+
+                                            ),
+
+
+                                          fluidRow(
+
+                                            uiOutput("my_output_1")
+                                          )),
+
+
+
+                                   tabPanel("Visual Inspection", fluid = TRUE,
+                                            id = 'tab2',
+                                            titlePanel("Data Visualization for Evaluation"),
+                                            fluidRow(
+                                              column(
+                                                4,
+                                                checkboxGroupButtons(
+                                                  inputId = "Id057",
+                                                  label = "Choose a graph :",
+                                                  choices = c(`<i class='fa fa-bar-chart'></i>` = "bar", `<i class='fa fa-line-chart'></i>` = "line",
+                                                              `<i class='fa fa-pie-chart'></i>` = "pie"),
+                                                  justified = TRUE
+                                                )
+                                                  )
+
+                                              ,
+
+                                              column(4,
+                                                     downloadButton("downloadPlot5", "Download Plot"))),
+
+                                            br(),
+                                                textOutput("my_text")
+
+                                                )
+
+                                   ,
+                                   tabPanel("Processing Data", fluid = TRUE,
+                                            id = "tab3",
+                                            tags$style(button_color_css),
+                                            titlePanel("Processing Data"),
+                                            fluidRow(
+                                              column(
+                                                4,
+                                                selectInput(
+                                                  inputId = "Search Key",
+                                                  label = "Search",
+                                                  choices = c(5, 10, 15),
+                                                  selected = "50 Free"
+                                                )
+                                              ),
+                                              column(
+                                                4,
+                                                sliderInput(
+                                                  inputId = "Data Range2",
+                                                  label = "Top Times Range:",
+                                                  min = 1,
+                                                  max = 3500,
+                                                  value = c(1, 250)
+                                                )
+                                              ),
+                                              textOutput("my_text_1")
+
+                                 )
+                               ),
+
+                                    tabPanel("Analyzing Data", fluid = TRUE,
+                                                 id = "tab4",
+                                                 titlePanel("Analyzing Data"),
+                                                 fluidRow(
+                                                   column(4,
+                                                          selectInput(inputId = "Search Key 2",
+                                                                      label = "Search",
+                                                                      choices = c(5,10,15),
+                                                                      selected = "50 Free")),
+                                                   column(4,
+                                                          sliderInput(inputId = "Data Range 3",
+                                                                      label = "Top Times Range:",
+                                                                      min = 1, max = 3500,
+                                                                      value = c(1,250))),
+                                                 hr(),
+                                                 helpText("Tip: Highlight points to populate table"),
+                                                 br(),
+                                                          textOutput("my_text_2")
+                                                   )),
+
+
+                                            tabPanel("Final Visualization", fluid = TRUE,
+                                                     id = "tab5",
+                                                     tags$style(button_color_css),
+                                                     titlePanel("Visualizing Data for Sharing"),
+                                                     fluidRow(
+                                                       column(4,
+                                                              selectInput(inputId = "Search Key 4",
+                                                                          label = "Search",
+                                                                          choices = c(5,10,15),
+                                                                          selected = "50 Free")),
+                                                       column(4,
+                                                              sliderInput(inputId = "Data Range 5",
+                                                                          label = "Top Times Range:",
+                                                                          min = 1, max = 3500,
+                                                                          value = c(1,250))),
+                                                     hr(),
+                                                     helpText("Tip: Highlight points to populate table"),
+                                                     br(),
+                                                              textOutput("my_text_3")
+
+                                                       )),
+
+
+
+                               tabPanel("Summary", fluid = TRUE,
+                                        id = "tab15",
+                                        tags$style(button_color_css),
+                                        titlePanel("Processing Data"),
+                                        fluidRow(
+                                          column(
+                                            4,
+                                            selectInput(
+                                              inputId = "Search Key",
+                                              label = "Search",
+                                              choices = c(5, 10, 15),
+                                              selected = "50 Free"
+                                            )
+                                          ),
+                                          column(
+                                            4,
+                                            sliderInput(
+                                              inputId = "data_range_2",
+                                              label = "Top Times Range:",
+                                              min = 1,
+                                              max = 3500,
+                                              value = c(1, 250)
+                                            )
+                                          ),
+                                          verbatimTextOutput(outputId = "tb"),
+
+                                        )
+                               )
+
+
+
+                               ))
+
+                                                     ))),
+
+                                      navbarMenu("Advanced Analtytics",
+                                                 icon = icon("chart-bar"),
+                                                 tabPanel("Explore more",fluid=TRUE,
+                                                          id="tab7",
+                                                          tags$style(button_color_css),
+                                                          titlePanel("Explore more")
+                                                 ),
+                                                 tabPanel("Ask me",fluid=TRUE,
+                                                          id="tab8",
+                                                          tags$style(button_color_css),
+                                                          titlePanel("Ask me")
+                                                 )
+
+                                      ),
+                         navbarMenu(
+                           "Portfolio",
+                           icon = icon("bars"),
+                           tabPanel(
+                             "Cyclic",
+                             id = "tab9",
+                             fluidPage(
+                               useShinyjs(),
+                               sidebarLayout(
+                                 sidebarPanel(
+                                   shinyjs::hidden(
+                                     selectInput(
+                                       "datasets",
+                                       "Select a dataset",
+                                       choices = c(
+                                         "FEBRUARY 2022" = "modified_data.csv",
+                                         "AUGUST 2022" = "modified_data_2.csv",
+                                         "DECEMBER 2022" = "modified_data_3.csv"
+                                       )
+                                     )
+                                   ),
+                                   radioButtons(
+                                     "plots",
+                                     "Select a plot",
+                                     choices = c(
+                                       "BARCHART" = "plot 1",
+                                       "LINECHART" = "plot 2",
+                                       "MAP" = "plot 3"
+                                     )
+                                   ),
+                                   shinyjs::hidden(
+                                     downloadButton("downloadPlot2", "Download plot")
+                                   ),
+                                   shinyjs::hidden(
+                                     selectInput(
+                                       "map_datasets",
+                                       "Select a dataset for the map",
+                                       choices = c(
+                                         "FEBRUARY 2022" = "station_data_1.csv",
+                                         "AUGUST 2022" = "station_data_2.csv",
+                                         "DECEMBER 2022" = "station_data_3.csv"
+                                       )
+                                     )
+                                   ),
+                                   themeModifier(id = "theme")
+                                 ),
+                                 mainPanel(
+                                   tabPanel(
+                                     "Visualization",
+                                     id = "tab11",
+                                     selected = TRUE,
+                                     conditionalPanel(
+                                       condition = "input.plots == 'plot 1'",
+                                       shinycssloaders::withSpinner(plotlyOutput("plot1"))
+                                     ),
+                                     conditionalPanel(
+                                       condition = "input.plots == 'plot 2'",
+                                       shinycssloaders::withSpinner(plotlyOutput("plot2"))
+                                     ),
+                                     conditionalPanel(
+                                       condition = "input.plots == 'plot 3'",
+                                       leafletOutput("my_map")
+                                     ),
+                                     em(
+                                       "Positive and negative percentages indicate an increase and decrease from the baseline period (median value between January 3 and February 6, 2020) respectively.",
+                                       hidden = TRUE
+                                     )
+                                   )
+                                 )
+                               )
+                             )
+                           ),
+                           tabPanel(
+                             id = "tree",
+                             "Science Branches",
+                             fluidPage(
+                             # collapsible domains tree section
+                             column(3, uiOutput("categorySelectComboTree")),
+                             column(12, collapsibleTreeOutput('tree', height='1500px') %>% withSpinner(color = "green"))
+                           )
+                           ))
+                         ,
+
+                         # Menu tab
+                         navbarMenu(
+                           "Menu",
+                           icon = icon("bars"),
+                           tabPanel("Username", id = "tab18", titlePanel(uiOutput("username_tab"))),
+                           tabPanel("Permission", id = "tab13", icon = icon("user-tag"), titlePanel(uiOutput("permission_tab"))),
+                           tabPanel("Settings", id = "tab14", icon = icon("cog")),
+                           tabPanel("Support", id = "tab15", icon = icon("hands-helping")),
+                           tabPanel("More Info", id = "tab16", icon = icon("info-circle"))
+                         ),
+
+                         # 3D Visualization tab
+                         navbarMenu(
+                           "3D Visualization",
+                           icon = icon("bars"),
+                           tabPanel(
+                             "3D Plot",
+                                              plotlyOutput("myplot")
+                                    )),
+
+                             absolutePanel(
+                               top = -5, right = 0,
+                               width = "auto", height = 50,
+                               style = "padding: 10px",
+                               uiOutput("logoutbtn"),
+                               cursor = "move"
+
+
+                      )
+
+
+
+                  )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

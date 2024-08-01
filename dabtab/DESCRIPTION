@@ -1,0 +1,53 @@
+Package: dabtab
+Title: DabTab: Data Analytics
+Version: 1.1.0
+Date: 2023-02-19
+Authors@R: 
+    person("AIGeniusXAdmin", email = "thenguyenfiner@gmail.com", role = c("aut", "cre"))
+Description: The DabTab provides quick analysis of your dataset. It provides algorithms for loading, saving, viewing, evaluating, visualizing, processing, and cleaning data. More features and functionalities will be updated in the near future.
+Depends:
+    R (>= 4.0.0),
+  tidyr (>= 1.1.1),
+    dplyr (>= 1.0.7)
+Imports:
+    tibble (>= 1.4.2),
+    rlang (>= 0.4.10),
+    broom (>= 0.5.2),
+    car (>= 3.0-0),
+    knitr (>= 1.20),
+    markdown (>= 1.3),
+    rmarkdown (>= 1.14),
+    shiny (>= 1.7.1),
+    jsonlite (>= 1.0),
+    shinyAce (>= 0.4.1),
+    psych (>= 1.8.4),
+    DT (>= 0.9),
+    readr (>= 1.1.1),
+    readxl (>= 1.0.0),
+    writexl (>= 0.2),
+    scales (>= 0.4.0),
+    curl (>= 2.5),
+    rstudioapi (>= 0.7),
+    import (>= 1.1.0),
+    glue (>= 1.3.0),
+    shinyFiles (>= 0.9.1),
+    stringi (>= 1.2.4),
+    randomizr (>= 0.20.0),
+    patchwork (>= 1.0.0),
+    png,
+    MASS
+Suggests:
+    dbplyr (>= 2.1.1),
+    DBI (>= 0.7),
+    RSQLite (>= 2.0),
+    RPostgres (>= 1.4.4),
+    webshot (>= 0.5.0),
+    testthat (>= 2.0.0),
+    pkgdown (>= 1.1.0)
+Files:
+    R/data_viewer.R
+License: MIT + file LICENSE
+LazyData: true
+Encoding: UTF-8
+Language: en-US
+RoxygenNote: 7.2.3

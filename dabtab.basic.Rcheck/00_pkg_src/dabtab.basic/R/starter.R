@@ -1,0 +1,96 @@
+library('plotly')
+library('dplyr')
+library('tidyr')
+library('ggplot2')
+library('shiny')
+library('shinydashboard')
+library('leaflet')
+library('shinyWidgets')
+library('bs4Dash')
+library('shinyjs')
+library('shinythemes')
+library(sodium)
+library(DT)
+library('thematic')
+library('bslib')
+library('ggthemes')
+library("shinycssloaders")
+library('tidyverse')
+library('rlang')
+library('import')
+library("shinyFiles")
+library(glue)
+library(dabtab)
+library("memoise")
+library(data.table)
+library(shiny)
+library(rgl)
+library(installr)
+
+openPageUI<-fluidPage(
+  tags$head(
+    tags$style(HTML("
+        html, body {
+          height: 100%;
+        }
+        .column {
+          height: 100%;
+          background-color: #F2F3F4 ;
+        }
+        #left-panel {
+          border-right: none;
+          background-color: green;
+        }
+        #middle-panel {
+          width: 66%;
+          background-color: grey;
+        }
+        #right-panel {
+          border-left: none;
+          background-color: yellow;
+        }
+    "))
+  ),
+
+  div(
+    class = "dabtab-css",
+    fluidRow(
+      column(
+        width = 3,
+        class = "column",
+        id = "left-panel",
+        h3("Dab Tab"),
+        h3("Add text to the left panel:"),
+        p("Chart type"),
+        p("Algorithm")
+      ),
+      column(
+        width = 6,
+        class = "column",
+        id = "middle-panel",
+        actionBttn(
+          inputId = "start_proj",
+          label = "Create Project",
+          style = "jelly",
+          color = "royal"
+        )
+      ),
+      column(
+        width = 3,
+        class = "column",
+        id = "right-panel",
+        p("Overview"),
+        p("More how-to videos"),
+        p("Interface"),
+        p("From scratch")
+      )
+    )
+  ),
+
+  tags$script(HTML("
+    $(document).ready(function() {
+      $('body,html').css('height','100%');
+      $('.column').css('height', ($(window).height())+'px');
+    });
+  "))
+)

@@ -1,0 +1,29 @@
+{
+    "id": "CB59ECDD",
+    "path": "~/R/win-library/4.1/dabtab_rs/dabtab.basic/R/server.R",
+    "project_path": "R/server.R",
+    "type": "r_source",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1681839136941.0,
+    "source_on_save": false,
+    "relative_order": 24,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "2419,0",
+        "scrollLine": "0",
+        "docOutlineVisible": "0",
+        "rmdVisualCollapsedChunks": "",
+        "docOutlineSize": "106"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1681972978,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1681972978651,
+    "read_only": false,
+    "read_only_alternatives": []
+}

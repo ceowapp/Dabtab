@@ -1,0 +1,25 @@
+library(shiny)
+library(shinyWidgets)
+
+ui <- fluidPage(
+  br(),
+  sliderTextInput(
+    inputId = "mySliderText",
+    label = "Month range slider:",
+    choices = month.name,
+    selected = month.name[c(1, 7)],
+    from_fixed = TRUE,
+    dragRange = TRUE
+  ),
+  verbatimTextOutput(outputId = "result")
+)
+
+server <- function(input, output, session) {
+  output$result <- renderText({
+    # Extract the right handle value
+    selected_month <- input$mySliderText[[2]]
+    selected_month
+  })
+}
+
+shinyApp(ui = ui, server = server)

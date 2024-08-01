@@ -1,0 +1,32 @@
+library(shiny)
+library(rgl)
+
+ui <- fluidPage(
+  plotOutput("myplot"),
+  uiOutput("myimage")
+)
+
+server <- function(input, output, session) {
+  output$myplot <- renderPlot({
+    data(mtcars)
+    plot3d(mtcars$wt, mtcars$disp, mtcars$mpg,
+           xlab = "Weight", ylab = "Displacement", zlab = "Miles per gallon",
+           type = "s", col = "blue", size = 1.5)
+    title3d("3D Scatter Plot of Cars Data", cex = 1.2)
+    rgl.viewpoint(theta = -40, phi = 20, fov = 60, zoom = 0.8)
+    # Save plot as PNG file
+    rgl.snapshot(filename = "myplot.png")
+  })
+  
+  output$myimage <- renderImage({
+    list(src = "myplot.png",
+         contentType = "image/png",
+         width = "100%")
+  }, deleteFile = FALSE)
+  
+  session$onSessionEnded(function() {
+    rgl.close()
+  })
+}
+
+shinyApp(ui, server)

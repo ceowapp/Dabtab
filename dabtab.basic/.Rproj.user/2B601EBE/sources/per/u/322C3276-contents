@@ -1,0 +1,25 @@
+
+df<-read.csv("C:/Users/DELL 7510/Music/202202-divvy-tripdata_v1.csv")
+
+names(df)<-trimws(names(df))
+
+density_plot <- function(df, var1, var2) {
+  ggplot(df, aes(x=.data[[var2]], fill=.data[[var1]])) +
+    geom_density(alpha=.5) +
+    ggtitle("Density Plot") +
+    scale_fill_manual(values = c("red", "blue", "green")) # set custom fill colors
+}
+
+
+
+
+scatter_plot <- function(df, var1, var2) {
+  ggplot(df, aes(x=.data[[var1]], y=.data[[var2]])) +
+    geom_point() +
+    ggtitle("Scatter Plot with Regression Lines") +
+    geom_smooth(method = "lm", se = FALSE) + # add linear regression line
+    geom_smooth(method = "loess", se = FALSE) # add LOESS line
+}
+
+
+scatter_plot(df,"weekday","ride_duration_1")

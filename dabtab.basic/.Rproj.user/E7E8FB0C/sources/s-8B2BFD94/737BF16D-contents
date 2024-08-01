@@ -1,0 +1,21 @@
+library(shiny)
+library(shinyalert)
+
+ui <- fluidPage(
+  useShinyalert(),
+  actionButton("btn", "Click me")
+)
+
+server <- function(input, output, session) {
+  
+  observeEvent(input$btn, {
+    shinyalert(title = "Hello!", text = "This is a Shinyalert message.", type = "success")
+    session$sendCustomMessage(type = "show_message", message = "This is a custom message.")
+  })
+  
+  session$onSessionEnded(function() {
+    session$sendCustomMessage(type = "show_message", message = "This is a custom message.")
+  })
+}
+
+shinyApp(ui, server)

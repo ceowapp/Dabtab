@@ -1,0 +1,13 @@
+---
+title: "Dabtab Reports"
+author: "AIGeniusXAdmin"
+date: '2023-10-24'
+source("_output-html.yaml")
+---
+```{r, results='asis'}
+# Drag-and-Drop Report
+
+<div id="droppable" class="ui-widget-header">
+  <!-- The draggable elements will be displayed here -->
+</div>
+

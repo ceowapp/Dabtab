@@ -1,0 +1,32 @@
+* using log directory 'C:/Users/DELL 7510/Documents/R/win-library/4.1/dabtab_rs/dabtab.basic.Rcheck'
+* using R version 4.1.2 (2021-11-01)
+* using platform: x86_64-w64-mingw32 (64-bit)
+* using session charset: ISO8859-1
+* using options '--no-manual --as-cran'
+* checking for file 'dabtab.basic/DESCRIPTION' ... OK
+* this is package 'dabtab.basic' version '1.5.5'
+* package encoding: UTF-8
+* checking package namespace information ... OK
+* checking package dependencies ... NOTE
+Package suggested but not available for checking: 'webshot'
+
+Imports includes 29 non-default packages.
+Importing from so many packages makes the package vulnerable to any of
+them becoming unavailable.  Move as many as possible to Suggests and
+use conditionally.
+* checking if this is a source package ... OK
+* checking if there is a namespace ... OK
+* checking for executable files ... OK
+* checking for hidden files and directories ... OK
+* checking for portable file names ... WARNING
+Found the following files with non-portable file names:
+  test/spelling check.R
+  www/Reverse a Linked List..html
+  www/Reverse a Linked List._files
+These are not fully portable file names.
+See section 'Package structure' in the 'Writing R Extensions' manual.
+* checking whether package 'dabtab.basic' can be installed ... ERROR
+Installation failed.
+See 'C:/Users/DELL 7510/Documents/R/win-library/4.1/dabtab_rs/dabtab.basic.Rcheck/00install.out' for details.
+* DONE
+Status: 1 ERROR, 1 WARNING, 1 NOTE

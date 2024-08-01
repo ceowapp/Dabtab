@@ -1,0 +1,25 @@
+{
+    "id": "26D2EB00",
+    "path": null,
+    "project_path": null,
+    "type": "r_code_browser",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1698723335539.0,
+    "source_on_save": false,
+    "relative_order": 16,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "context": ".GlobalEnv:::word"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 14918461531815988,
+    "encoding": "",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1698723335539,
+    "read_only": false,
+    "read_only_alternatives": []
+}

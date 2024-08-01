@@ -1,0 +1,102 @@
+
+df<-read.csv("C:/Users/DELL 7510/Music/202204-divvy-tripdata_v2")
+box_and_whisker_plot_1 <- function(df, var1, var2) {
+  df %>% 
+    group_by(!!sym(var1)) %>%
+    ggplot(aes(x = as.factor(!!sym(var1)), y = .data[[var2]])) +
+    geom_point(aes(color = factor(!!sym(var1))), alpha = 0.2, position = "jitter") +
+    geom_boxplot(outlier.size = 0, alpha = 0.1) +
+    guides(colour = FALSE) +
+    ggtitle("Box and Whisker Plot")
+}
+
+box_and_whisker_plot_1(df, "weekday", "ride_duration_1")
+
+
+box_and_whisker_plot_1(df, "weekday", "ride_duration_1")
+
+
+
+
+
+
+
+
+df<-read.csv("C:/Users/DELL 7510/Music/test_convert.csv")
+
+text_to_num <- function(data, col_name) {
+  
+  # create a mapping of words to their corresponding numeric values
+  num_map <- c("zero"=0, "one"=1, "two"=2, "three"=3, "four"=4, "five"=5, "six"=6, "seven"=7, "eight"=8, "nine"=9, "ten"=10,
+               "eleven"=11, "twelve"=12, "thirteen"=13, "fourteen"=14, "fifteen"=15, "sixteen"=16, "seventeen"=17, "eighteen"=18, "nineteen"=19,
+               "twenty"=20, "thirty"=30, "forty"=40, "fifty"=50, "sixty"=60, "seventy"=70, "eighty"=80, "ninety"=90)
+  
+  # initialize variables
+  converted <- 0
+  invalid <- 0
+  data$text_to_num <- rep(NA, nrow(data))
+  
+  # loop through each row of the dataframe
+  for (i in 1:nrow(data)) {
+    text <- data[[col_name]][i]
+    if (!is.na(text)) {
+      # split the input text into words
+      words <- unlist(strsplit(text, " "))
+      
+      # initialize variables
+      result <- 0
+      current_value <- 0
+      multiplier <- 1
+      
+      # loop through each word and convert it to its numeric value
+      for (word in words) {
+        if (word %in% names(num_map)) {
+          current_value <- current_value + num_map[[word]]
+        } else if (word == "hundred") {
+          current_value <- current_value * 100
+        } else if (word == "thousand") {
+          result <- result + current_value * 1000
+          current_value <- 0
+        } else if (word == "million") {
+          result <- result + current_value * 1000000
+          current_value <- 0
+        } else if (word == "billion") {
+          result <- result + current_value * 1000000000
+          current_value <- 0
+        } else if (word == "and") {
+          # do nothing
+        } else {
+          # word is not a valid number
+          invalid <- invalid + 1
+          break
+        }
+      }
+      
+      if (current_value > 0) {
+        result <- result + current_value
+      }
+      
+      if (invalid == 0) {
+        # update the dataframe with the converted value
+        data$text_to_num[i] <- result
+        converted <- converted + 1
+      } else {
+        # add a new column to store the original text
+        data$text_to_num[i] <- text
+      }
+      
+      # reset the invalid counter
+      invalid <- 0
+    }
+  }
+  
+  # print the results
+  cat("Converted", converted, "rows.\n")
+  cat("Could not convert", invalid, "rows.\n")
+  
+  return(data)
+}
+
+
+
+print(text_to_num(df, "text"))

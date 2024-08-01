@@ -1,0 +1,91 @@
+setwd(rstudioapi::getActiveProject())
+curr <- getwd()
+pkg <- basename(curr)
+
+## Building the package for macOS and Windows
+rv <- R.Version()
+rv <- paste(rv$major, substr(rv$minor, 1, 1), sep = ".")
+
+rvprompt <- readline(prompt = paste0("Running for R version: ", rv, ". Is that what you wanted? (y/n): "))
+if (grepl("[nN]", rvprompt)) stop("Change R-version")
+
+dirsrc <- "../dabtab.minicran/src/"
+
+if (rv < "3.4") {
+  dirmac <- fs::path("../dabtab.minicran/bin/macosx/ver_01/contrib", rv)
+} else if (rv > "3.6") {
+  dirmac <- c(
+    fs::path("../dabtab.minicran/bin/macosx/ver_02/contrib", rv),
+    fs::path("../dabtab.minicran/bin/macosx/contrib", rv)
+  )
+} else {
+  dirmac <- fs::path("../dabtab.minicran/bin/macosx/version_03/contrib", rv)
+}
+
+dirwin <- fs::path("../dabtab.minicran/bin/windows/ver_01/contrib", rv)
+
+if (!fs::file_exists(dirsrc)) fs::dir_create(dirsrc, recurse = TRUE)
+for (d in dirmac) {
+  if (!fs::file_exists(d)) fs::dir_create(d, recurse = TRUE)
+}
+if (!fs::file_exists(dirwin)) fs::dir_create(dirwin, recurse = TRUE)
+
+# Delete older versions of the 'dabtab' package
+rem_old <- function(pkg) {
+  unlink(paste0(dirsrc, "/", pkg, "*"))
+  for (d in dirmac) {
+    unlink(paste0(d, "/", pkg, "*"))
+  }
+  unlink(paste0(dirwin, "/", pkg, "*"))
+}
+
+sapply(pkg, rem_old)
+
+## Avoid 'loaded namespace' issues when building for macOS
+system(paste0(Sys.which("R"), " -e \"setwd('", getwd(), "'); app <- '", pkg, "'; source('build/build_mac.R')\""))
+
+win <- readline(prompt = "Did you build on Windows? (y/n): ")
+if (grepl("[yY]", win)) {
+
+  #fl <- list.files(pattern = "*.zip", path = "~/Dropbox/r-packages", full.names = TRUE)
+  #for (f in fl) {
+    #file.copy(f, "~/gh/")
+  #}
+  #unlink(fl)
+
+  ## Move packages to the 'dabtab_miniCRAN'. You must package in Windows first.
+  # path <- normalizePath("../")
+  pth <- fs::path_abs("../")
+
+  sapply(list.files(pth, pattern = "*.tar.gz", full.names = TRUE), file.copy, dirsrc)
+  unlink("../*.tar.gz")
+  for (d in dirmac) {
+    sapply(list.files(pth, pattern = "*.tgz", full.names = TRUE), file.copy, d)
+  }
+  unlink("../*.tgz")
+  sapply(list.files(pth, pattern = "*.zip", full.names = TRUE), file.copy, dirwin)
+  unlink("../*.zip")
+
+  tools::write_PACKAGES(dirwin, type = "win.binary")
+  for (d in dirmac) {
+    tools::write_PACKAGES(d, type = "mac.binary")
+  }
+  tools::write_PACKAGES(dirsrc, type = "source")
+
+  # Commit to the repository
+  repository_url = "https://github.com/aigeniusxadmin/dabtdab-minicran.git"
+  setwd("../dabtab.minicran")
+  system("git init")
+  system("git add --all .")
+  mess <- paste0(pkg, " package update: ", format(Sys.Date(), format = "%m-%d-%Y"))
+  system(paste0("git commit -m '", mess, "'"))
+  system(paste0("git remote add origin ", repository_url))
+  system("git push -f origin master")
+  system("git push")
+}
+
+setwd(curr)
+
+# remove.packages(c("dabtab", "dabtab.basic"))
+# dabtab.update::dabtab.update()
+# install.packages("dabtab.update")

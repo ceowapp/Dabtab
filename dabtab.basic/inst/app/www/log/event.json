@@ -1,0 +1,26 @@
+{
+  "Type": "Notification",
+  "MessageId": "123abc-123-123-123-123abc",
+  "EventType": "shareData",
+  "Message": [
+    {
+      "ActionBy": "UserUUID",
+      "Description": "Alert: New Pattern Update is Downloaded and Available\nSeverity: Warning",
+      "EventID": 6813,
+      "LogDate": "2018-12-04T15:54:24.086Z",
+      "Number": 192,
+      "Tags": "",
+      "TargetID": 1,
+      "TargetName": "ec2-12-123-123-123.us-west-2.compute.amazonaws.com",
+      "TargetType": "Host",
+      "TenantID": 123,
+      "TenantName": "Umbrella Corp.",
+      "Title": "Alert Ended"
+    }
+  ],
+  "Timestamp": "2018-12-04T15:54:25.130Z",
+  "SignatureVersion": "1",
+  "Signature": "500PER10NG5!gnaTURE==",
+  "SigningCertURL": "https://sns.us-west-2.amazonaws.com/SimpleNotificationService-abc123.pem",
+  "UnsubscribeURL": "https://sns.us-west-2.amazonaws.com/?Action=Unsubscribe&SubscriptionArn=arn:aws:sns:us-west-2:123456:DS_Events:123abc-123-123-123-123abc"
+}

@@ -1,0 +1,61 @@
+# Define UI
+
+library(shiny)
+
+df<-read.csv("C:/Users/DELL 7510/Music/202202-divvy-tripdata_v1.csv")
+
+
+ui <- fluidPage(
+  titlePanel("Animated Line Chart"),
+  sliderTextInput(
+    inputId = "sample_size",
+    label = "Sample Size:",
+    choices = c(1:50),
+    selected = "1",
+    from_fixed = TRUE,
+    dragRange = TRUE
+  ),
+  uiOutput("numeric"),
+  
+
+  
+)
+
+# Define server
+server <- function(input, output) {
+  # Filter data based on selected countries
+  observe({
+  n_rows <- nrow(df)
+  
+  
+  
+  sampled_df <- reactive({
+    df[sample(n_rows, input$obs), ]
+  })
+  
+  output$sampled_df <- renderDataTable({
+    sampled_df()
+  })
+  
+  
+    
+    n_seeds <- floor(n_rows / input$sample_size[[2]])
+    
+    output$numeric <- renderUI({
+      numericInput("obs", "Observations:", value = 10, min = 1, max = n_seeds)
+    })
+    
+  })
+  
+  
+  observeEvent(input$obs, {
+    updateNumericInput(session, "obs", value = input$obs)
+    output$sampled_df <- renderDataTable({
+      sampled_df()
+    })
+  })
+  
+}
+
+# Run the app
+shinyApp(ui = ui, server = server)

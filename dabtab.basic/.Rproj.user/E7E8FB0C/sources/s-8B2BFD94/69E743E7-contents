@@ -1,0 +1,59 @@
+library(shiny)
+library(plotly)
+
+options(shiny.launch.browser = TRUE)
+
+# Define UI
+ui <- fluidPage(
+  titlePanel("3D Scatter Plot"),
+  sidebarLayout(
+    sidebarPanel(
+      # No inputs needed for this example
+    ),
+    mainPanel(
+      tabsetPanel(
+        id = "tabsetPanel",
+        type = "tabs",
+        tabPanel(
+          "3D Plot",
+          conditionalPanel(condition = "input.tabsetPanel == '3D Plot'",
+                           plotlyOutput("myplot"))
+        ),
+        tabPanel(
+          "Table",
+          conditionalPanel(condition = "input.tabsetPanel == 'Table'",
+                           tableOutput("mytable"))
+        )
+      )
+    )
+  )
+)
+
+# Define server logic
+server <- function(input, output, session) {
+  
+  # Create 3D scatter plot
+  output$myplot <- renderPlotly({
+    plot_ly(data = mtcars, x = ~wt, y = ~disp, z = ~mpg, 
+            type = "scatter3d", mode = "markers", marker = list(color = "blue", size = 1.5)) %>%
+      layout(scene = list(xaxis = list(title = "Weight"),
+                          yaxis = list(title = "Displacement"),
+                          zaxis = list(title = "Miles per gallon")),
+             title = "3D Scatter Plot of Cars Data")
+  })
+  
+  # Create table of data
+  output$mytable <- renderTable({
+    mtcars
+  })
+  
+  # Close 3D plot on app close or switch tab
+  session$onSessionEnded(function() {
+    plotlyjs:::purgeD3js()
+    plotlyjs:::purgePlotly()
+  })
+  
+}
+
+# Run the application 
+shinyApp(ui = ui, server = server, options = list(launch.browser = TRUE))
